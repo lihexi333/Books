@@ -1,0 +1,68 @@
+<svg width="1100" height="520" xmlns="http://www.w3.org/2000/svg">
+  <!-- users表 -->
+  <rect x="40" y="40" width="180" height="120" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="60" y="65" font-size="16" fill="#1976d2" font-weight="bold">users</text>
+  <text x="50" y="90" font-size="13">id (PK)</text>
+  <text x="50" y="110" font-size="13">username</text>
+  <text x="50" y="130" font-size="13">password</text>
+  <text x="50" y="150" font-size="13">created</text>
+
+  <!-- posts表 -->
+  <rect x="320" y="20" width="220" height="120" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
+  <text x="340" y="45" font-size="16" fill="#f57c00" font-weight="bold">posts</text>
+  <text x="330" y="70" font-size="13">id (PK)</text>
+  <text x="330" y="90" font-size="13">title</text>
+  <text x="330" y="110" font-size="13">content</text>
+  <text x="440" y="70" font-size="13">user_id (FK)</text>
+  <text x="440" y="90" font-size="13">created</text>
+  <text x="440" y="110" font-size="13">updated</text>
+
+  <!-- books表 -->
+  <rect x="320" y="180" width="220" height="160" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+  <text x="340" y="205" font-size="16" fill="#388e3c" font-weight="bold">books</text>
+  <text x="330" y="230" font-size="13">id (PK)</text>
+  <text x="330" y="250" font-size="13">title</text>
+  <text x="330" y="270" font-size="13">authors</text>
+  <text x="330" y="290" font-size="13">publisher</text>
+  <text x="440" y="230" font-size="13">publishedDate</text>
+  <text x="440" y="250" font-size="13">description</text>
+  <text x="440" y="270" font-size="13">thumbnail</text>
+  <text x="440" y="290" font-size="13">infoLink</text>
+
+  <!-- comments表 -->
+  <rect x="700" y="40" width="220" height="120" fill="#fce4ec" stroke="#c2185b" stroke-width="2"/>
+  <text x="720" y="65" font-size="16" fill="#c2185b" font-weight="bold">comments</text>
+  <text x="710" y="90" font-size="13">id (PK)</text>
+  <text x="710" y="110" font-size="13">content</text>
+  <text x="820" y="90" font-size="13">user_id (FK)</text>
+  <text x="820" y="110" font-size="13">book_id (FK)</text>
+  <text x="710" y="130" font-size="13">created</text>
+
+  <!-- user_markdown表 -->
+  <rect x="700" y="220" width="220" height="100" fill="#ede7f6" stroke="#512da8" stroke-width="2"/>
+  <text x="720" y="245" font-size="16" fill="#512da8" font-weight="bold">user_markdown</text>
+  <text x="710" y="270" font-size="13">id (PK)</text>
+  <text x="710" y="290" font-size="13">user_id (FK, UNIQUE)</text>
+  <text x="820" y="270" font-size="13">content</text>
+  <text x="820" y="290" font-size="13">updated</text>
+
+  <!-- users.id -> posts.user_id -->
+  <line x1="220" y1="90" x2="440" y2="70" stroke="#1976d2" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="260" y="80" font-size="12" fill="#1976d2">1对多</text>
+  <!-- users.id -> comments.user_id -->
+  <line x1="220" y1="90" x2="820" y2="90" stroke="#1976d2" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="500" y="80" font-size="12" fill="#1976d2">1对多</text>
+  <!-- users.id -> user_markdown.user_id -->
+  <line x1="220" y1="130" x2="710" y2="290" stroke="#1976d2" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="400" y="200" font-size="12" fill="#1976d2">1对1</text>
+  <!-- books.id -> comments.book_id -->
+  <line x1="540" y1="230" x2="820" y2="110" stroke="#388e3c" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="650" y="170" font-size="12" fill="#388e3c">1对多</text>
+
+  <!-- 箭头定义 -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 L2,5 Z" fill="#888"/>
+    </marker>
+  </defs>
+</svg>

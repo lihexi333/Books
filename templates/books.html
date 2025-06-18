@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>书籍列表（100本）</h2>
+    <div>
+      <a href="{{ url_for('books', sort='date_desc') }}" class="btn btn-outline-primary btn-sm {% if sort == 'date_desc' %}active{% endif %}">出版时间降序</a>
+      <a href="{{ url_for('books', sort='date_asc') }}" class="btn btn-outline-primary btn-sm {% if sort == 'date_asc' %}active{% endif %}">出版时间升序</a>
+      <a href="{{ url_for('books', sort='alpha_asc') }}" class="btn btn-outline-primary btn-sm {% if sort == 'alpha_asc' %}active{% endif %}">首字母升序</a>
+      <a href="{{ url_for('books', sort='alpha_desc') }}" class="btn btn-outline-primary btn-sm {% if sort == 'alpha_desc' %}active{% endif %}">首字母降序</a>
+    </div>
+  </div>
+  <div class="row">
+    {% for book in books %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        {% if book['thumbnail'] %}
+        <!-- From Uiverse.io by ElSombrero2 --> 
+
+
+        {% endif %}
+        <div class="card">
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/style6.css') }}">
+            <div class="content">
+            <div class="back">
+                <div class="back-content">
+                    <img src="{{ book['thumbnail'] }}" class="card-img-top" alt="封面">
+                <strong>Hover Me</strong>
+                </div>
+            </div>
+            <div class="front">
+                
+                <div class="img">
+                <div class="circle">
+                </div>
+                <div class="circle" id="right">
+                </div>
+                <div class="circle" id="bottom">
+                </div>
+                </div>
+        
+                <div class="front-content">
+                <div class="title-area">
+                    <strong class="book-title">{{ book['title'] }}</strong>
+                </div>
+    
+                <!--详情按钮 --> 
+                <!-- From Uiverse.io by adamgiebl -->   
+    
+                <button onclick="window.open('{{book['infoLink']}}', '_blank')">
+                    <link rel="stylesheet" href="{{ url_for('static', filename='css/style7.css') }}">
+                    <div class="svg-wrapper-1">
+                    <div class="svg-wrapper">
+                        <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        >
+                        <path fill="none" d="M0 0h24v24H0z"></path>
+                        <path
+                            fill="currentColor"
+                            d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"
+                        ></path>
+                        </svg>
+                    </div>
+                    </div>
+                    </a>
+                    <span>more info</span>
+                </button>
+                
+                <div class="description">
+                    <div class="title">
+                    <svg fill-rule="nonzero" height="15px" width="15px" viewBox="0,0,256,256" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g style="mix-blend-mode: normal" text-anchor="none" font-size="none" font-weight="none" font-family="none" stroke-dashoffset="0" stroke-dasharray="" stroke-miterlimit="10" stroke-linejoin="miter" stroke-linecap="butt" stroke-width="1" stroke="none" fill-rule="nonzero" fill="#20c997"><g transform="scale(8,8)"><path d="M25,27l-9,-6.75l-9,6.75v-23h18z"></path></g></g></svg>
+                    </div>
+                    <p class="card-footer">
+                        <b>作者：</b>{{ book['authors'] }}<br/>
+                        <b>出版社：</b>{{ book['publisher'] }}<br/>
+                        <b>出版日期：</b>{{ book['publishedDate'] }}<br/>
+                    </p>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+ 
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

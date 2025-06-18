@@ -1,0 +1,62 @@
+<svg width="900" height="420" xmlns="http://www.w3.org/2000/svg">
+  <!-- 系统框架 -->
+  <rect x="60" y="40" width="780" height="340" fill="#f8f9fa" stroke="#1976d2" stroke-width="2"/>
+  <text x="370" y="70" font-size="22" fill="#1976d2" font-weight="bold">博客与图书管理系统功能结构图</text>
+
+  <!-- 一级功能 -->
+  <rect x="120" y="120" width="160" height="60" fill="#bbdefb" stroke="#1976d2" stroke-width="2"/>
+  <text x="150" y="155" font-size="16" fill="#1976d2">用户管理</text>
+  <rect x="370" y="120" width="160" height="60" fill="#ffe0b2" stroke="#f57c00" stroke-width="2"/>
+  <text x="400" y="155" font-size="16" fill="#f57c00">笔记管理</text>
+  <rect x="620" y="120" width="160" height="60" fill="#c8e6c9" stroke="#388e3c" stroke-width="2"/>
+  <text x="650" y="155" font-size="16" fill="#388e3c">图书管理</text>
+
+  <!-- 二级功能 用户管理 -->
+  <rect x="100" y="210" width="90" height="40" fill="#e3f2fd" stroke="#1976d2"/>
+  <text x="110" y="235" font-size="13">注册/登录</text>
+  <rect x="200" y="210" width="90" height="40" fill="#e3f2fd" stroke="#1976d2"/>
+  <text x="210" y="235" font-size="13">信息修改</text>
+
+  <!-- 二级功能 博客管理 -->
+  <rect x="350" y="210" width="70" height="40" fill="#fff3e0" stroke="#f57c00"/>
+  <text x="355" y="235" font-size="13">发布</text>
+  <rect x="430" y="210" width="70" height="40" fill="#fff3e0" stroke="#f57c00"/>
+  <text x="435" y="235" font-size="13">编辑</text>
+  <rect x="510" y="210" width="70" height="40" fill="#fff3e0" stroke="#f57c00"/>
+  <text x="515" y="235" font-size="13">删除</text>
+  <rect x="430" y="270" width="70" height="40" fill="#fff3e0" stroke="#f57c00"/>
+  <text x="435" y="295" font-size="13">导出</text>
+
+  <!-- 二级功能 图书管理 -->
+  <rect x="600" y="210" width="90" height="40" fill="#e8f5e9" stroke="#388e3c"/>
+  <text x="610" y="235" font-size="13">图书查询</text>
+  <rect x="700" y="210" width="90" height="40" fill="#e8f5e9" stroke="#388e3c"/>
+  <text x="710" y="235" font-size="13">图书评论</text>
+  <rect x="650" y="270" width="90" height="40" fill="#e8f5e9" stroke="#388e3c"/>
+  <text x="660" y="295" font-size="13">API获取</text>
+
+  <!-- Markdown编辑器 -->
+  <rect x="370" y="320" width="160" height="50" fill="#ede7f6" stroke="#512da8" stroke-width="2"/>
+  <text x="400" y="350" font-size="16" fill="#512da8">Markdown编辑器</text>
+  <rect x="350" y="380" width="70" height="30" fill="#ede7f6" stroke="#512da8"/>
+  <text x="355" y="400" font-size="13">编辑</text>
+  <rect x="430" y="380" width="70" height="30" fill="#ede7f6" stroke="#512da8"/>
+  <text x="435" y="400" font-size="13">预览</text>
+  <rect x="510" y="380" width="70" height="30" fill="#ede7f6" stroke="#512da8"/>
+  <text x="515" y="400" font-size="13">导出</text>
+
+  <!-- 连线 -->
+  <line x1="200" y1="180" x2="145" y2="210" stroke="#1976d2" stroke-width="2"/>
+  <line x1="200" y1="180" x2="245" y2="210" stroke="#1976d2" stroke-width="2"/>
+  <line x1="450" y1="180" x2="385" y2="210" stroke="#f57c00" stroke-width="2"/>
+  <line x1="450" y1="180" x2="465" y2="210" stroke="#f57c00" stroke-width="2"/>
+  <line x1="450" y1="180" x2="545" y2="210" stroke="#f57c00" stroke-width="2"/>
+  <line x1="450" y1="180" x2="465" y2="270" stroke="#f57c00" stroke-width="2"/>
+  <line x1="700" y1="180" x2="645" y2="210" stroke="#388e3c" stroke-width="2"/>
+  <line x1="700" y1="180" x2="745" y2="210" stroke="#388e3c" stroke-width="2"/>
+  <line x1="700" y1="180" x2="695" y2="270" stroke="#388e3c" stroke-width="2"/>
+  <line x1="450" y1="180" x2="450" y2="320" stroke="#512da8" stroke-width="2"/>
+  <line x1="450" y1="370" x2="385" y2="380" stroke="#512da8" stroke-width="2"/>
+  <line x1="450" y1="370" x2="465" y2="380" stroke="#512da8" stroke-width="2"/>
+  <line x1="450" y1="370" x2="545" y2="380" stroke="#512da8" stroke-width="2"/>
+</svg>

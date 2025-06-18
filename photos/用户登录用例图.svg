@@ -1,0 +1,23 @@
+<svg width="500" height="260" xmlns="http://www.w3.org/2000/svg">
+  <!-- 边框 -->
+  <rect x="120" y="30" width="260" height="200" fill="none" stroke="#800000" stroke-width="2"/>
+  <text x="180" y="55" font-size="16" fill="#800000">用户登录子系统</text>
+
+  <!-- 用例椭圆 -->
+  <ellipse cx="250" cy="100" rx="60" ry="22" fill="#d4af37" stroke="#800000" stroke-width="2"/>
+  <text x="225" y="105" font-size="14" fill="#800000">用户注册</text>
+  <ellipse cx="250" cy="150" rx="60" ry="22" fill="#d4af37" stroke="#800000" stroke-width="2"/>
+  <text x="225" y="155" font-size="14" fill="#800000">用户登录</text>
+  <ellipse cx="250" cy="200" rx="60" ry="22" fill="#d4af37" stroke="#800000" stroke-width="2"/>
+  <text x="225" y="205" font-size="14" fill="#800000">用户登出</text>
+
+  <!-- 普通用户 -->
+  <rect x="30" y="110" width="30" height="60" rx="15" fill="#c00"/>
+  <circle cx="45" cy="100" r="15" fill="#c00"/>
+  <text x="10" y="200" font-size="13" fill="#333">用户</text>
+
+  <!-- 连接线 -->
+  <line x1="60" y1="120" x2="190" y2="100" stroke="#333" stroke-width="2"/>
+  <line x1="60" y1="140" x2="190" y2="150" stroke="#333" stroke-width="2"/>
+  <line x1="60" y1="160" x2="190" y2="200" stroke="#333" stroke-width="2"/>
+</svg>

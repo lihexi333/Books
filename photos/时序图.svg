@@ -1,0 +1,71 @@
+@startuml
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam sequenceArrowColor #2E5BDA
+skinparam sequenceArrowFontColor #000000
+skinparam sequenceArrowFontSize 20
+skinparam sequenceArrowFontName "Microsoft YaHei"
+skinparam sequenceParticipantFontSize 24
+skinparam sequenceParticipantFontName "Microsoft YaHei"
+skinparam sequenceParticipantFontStyle bold
+skinparam sequenceNoteFontSize 20
+skinparam sequenceNoteFontName "Microsoft YaHei"
+skinparam sequenceGroupHeaderFontSize 20
+skinparam sequenceGroupHeaderFontName "Microsoft YaHei"
+skinparam sequenceGroupHeaderFontStyle bold
+
+participant "<color:white><size:20><b>用户" as U #1A237E
+participant "<color:white><size:20><b>浏览器/前端" as B #1A237E
+participant "<color:white><size:20><b>Flask后端" as S #1A237E
+participant "<color:white><size:20><b>数据库" as DB #1A237E
+
+note over U, DB #4CAF50
+    <color:white><size:20><b>MARKDOWN编辑器完整工作流程</b></size></color>
+end note
+
+group <color:#1A237E><size:18><b>用户界面交互阶段</b></size></color>
+    note over U, B #FF6F00
+        <color:white><size:18><b>用户界面交互阶段</b></size></color>
+    end note
+    
+    U ->> B++ : 进入Markdown编辑页面
+    B -->> U-- : 显示Markdown编辑器和实时预览
+    
+    loop <color:#1A237E><size:16><b>持续编辑过程</b></size></color>
+        U ->> B++ : 输入/编辑Markdown内容
+        B -->> U-- : 实时渲染预览效果
+    end
+end
+
+group <color:#1A237E><size:18><b>数据保存处理阶段</b></size></color>
+    note over U, DB #FF6F00
+        <color:white><size:18><b>数据保存处理阶段</b></size></color>
+    end note
+    
+    U ->> B++ : 点击保存按钮
+    B ->> S++ : 发送保存请求 POST /markdown
+    S ->> DB++ : 更新或插入用户Markdown内容
+    DB -->> S-- : 返回数据库操作结果
+    S -->> B-- : 返回保存处理结果
+    B -->> U-- : 显示保存成功或失败提示
+end
+
+group <color:#1A237E><size:18><b>文件导出处理阶段</b></size></color>
+    note over U, S #FF6F00
+        <color:white><size:18><b>文件导出处理阶段</b></size></color>
+    end note
+    
+    alt <color:#1A237E><size:16><b>用户选择导出文件</b></size></color>
+        U ->> B++ : 点击导出为Markdown文件
+        B ->> S++ : 发送导出请求 GET /markdown/export
+        S -->> B-- : 返回Markdown文件内容并触发下载
+        note right of B #4CAF50
+            <color:white><size:16><b>浏览器执行文件下载操作</b></size></color>
+        end note
+    else <color:#1A237E><size:16><b>用户不导出</b></size></color>
+        note over U, B #4CAF50
+            <color:white><size:16><b>用户继续编辑或关闭页面</b></size></color>
+        end note
+    end
+end
+@enduml

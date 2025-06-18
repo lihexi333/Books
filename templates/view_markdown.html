@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <h2>Markdown 预览</h2>
+  <div class="card card-body">
+    {{ html|safe }}
+  </div>
+  <a href="{{ url_for('edit_markdown') }}" class="btn btn-link mt-2">编辑</a>
+</div>
+{% endblock %}
