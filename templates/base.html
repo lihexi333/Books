@@ -26,7 +26,7 @@
         }
     </style>
 </head>
-<body>
+<body style="height: 100vh;">
     <!-- 导航栏 -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Bradlynn博客</a>
@@ -69,13 +69,132 @@
       <p>支持作者<br><span class="bold-567">轻触图标</span> </p>
       <p class="really-small-text">*at the expense of your sanity</p>
     </div>
+    <script>
+      // 简单可靠的高性能拖拽实现
+      document.addEventListener('DOMContentLoaded', function() {
+        // 获取卡片元素
+        const card = document.querySelector('.card-id567');
+        if (!card) return; // 防止卡片元素不存在时的错误
+        
+        // 拖拽状态变量
+        let isDragging = false;
+        let offsetX, offsetY;
+        
+        // 设置卡片初始样式
+        card.style.position = 'fixed';
+        card.style.top = '30px';
+        card.style.left = '30px';
+        card.style.cursor = 'grab';
+        card.style.zIndex = '9999';
+        card.style.userSelect = 'none';
+        
+        // 鼠标按下事件
+        card.addEventListener('mousedown', function(e) {
+          isDragging = true;
+          
+          // 获取卡片当前位置
+          const rect = card.getBoundingClientRect();
+          
+          // 计算鼠标在卡片内的位置
+          offsetX = e.clientX - rect.left;
+          offsetY = e.clientY - rect.top;
+          
+          card.style.cursor = 'grabbing';
+          e.preventDefault(); // 防止选择文本
+        });
+        
+        // 触摸开始事件
+        card.addEventListener('touchstart', function(e) {
+          if (e.touches.length === 1) {
+            isDragging = true;
+            
+            // 获取卡片当前位置
+            const rect = card.getBoundingClientRect();
+            
+            // 计算触摸点在卡片内的位置
+            offsetX = e.touches[0].clientX - rect.left;
+            offsetY = e.touches[0].clientY - rect.top;
+            
+            card.style.cursor = 'grabbing';
+            e.preventDefault(); // 防止滚动
+          }
+        });
+        
+        // 鼠标移动事件
+        document.addEventListener('mousemove', function(e) {
+          if (!isDragging) return;
+          
+          // 计算新位置
+          const newX = e.clientX - offsetX;
+          const newY = e.clientY - offsetY;
+          
+          // 确保不超出屏幕
+          const maxX = window.innerWidth - card.offsetWidth;
+          const maxY = window.innerHeight - card.offsetHeight;
+          
+          // 应用位置 (使用left/top确保兼容性)
+          card.style.left = `${Math.max(0, Math.min(newX, maxX))}px`;
+          card.style.top = `${Math.max(0, Math.min(newY, maxY))}px`;
+        });
+        
+        // 触摸移动事件
+        document.addEventListener('touchmove', function(e) {
+          if (!isDragging) return;
+          
+          if (e.touches.length === 1) {
+            // 计算新位置
+            const newX = e.touches[0].clientX - offsetX;
+            const newY = e.touches[0].clientY - offsetY;
+            
+            // 确保不超出屏幕
+            const maxX = window.innerWidth - card.offsetWidth;
+            const maxY = window.innerHeight - card.offsetHeight;
+            
+            // 应用位置
+            card.style.left = `${Math.max(0, Math.min(newX, maxX))}px`;
+            card.style.top = `${Math.max(0, Math.min(newY, maxY))}px`;
+            
+            e.preventDefault(); // 防止页面滚动
+          }
+        });
+        
+        // 鼠标释放事件
+        document.addEventListener('mouseup', function() {
+          if (isDragging) {
+            isDragging = false;
+            card.style.cursor = 'grab';
+          }
+        });
+        
+        // 触摸结束事件
+        document.addEventListener('touchend', function() {
+          if (isDragging) {
+            isDragging = false;
+            card.style.cursor = 'grab';
+          }
+        });
+        
+        // 窗口大小变化时，确保卡片不会超出屏幕
+        window.addEventListener('resize', function() {
+          const rect = card.getBoundingClientRect();
+          const maxX = window.innerWidth - card.offsetWidth;
+          const maxY = window.innerHeight - card.offsetHeight;
+          
+          if (rect.right > window.innerWidth) {
+            card.style.left = `${maxX}px`;
+          }
+          
+          if (rect.bottom > window.innerHeight) {
+            card.style.top = `${maxY}px`;
+          }
+        });
+      });
+    </script>
   </div>
     <!-- 此处是博客动态内容的实现，在index.html文件中可见 -->
-    <div class="container">
-        <div class="row">
+    <div class="container h-100" style="margin-bottom: 100px;"  >
             {% block content %}
             {% endblock %}
-        </div>
     </div>
 
     <!-- 页脚 -->
