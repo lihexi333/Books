@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, g, abort, send_file
-from .db_utils import get_db_conn, get_post
+from db_utils import get_db_conn, get_post
 import io
 
 posts_bp = Blueprint('posts', __name__, url_prefix='/')
@@ -9,7 +9,7 @@ def index():
     if g.user is None:
         return redirect(url_for('auth.login'))
     conn = get_db_conn()
-    posts = conn.execute('SELECT * FROM posts WHERE user_id = ?', (g.user['id'],)).fetchall()
+    posts = conn.execute('SELECT * FROM posts WHERE user_id = ?', (g.user[0],)).fetchall()
     conn.close()
     return render_template('index.html', posts=posts)
 
@@ -35,7 +35,7 @@ def new():
             conn = get_db_conn()
             conn.execute(
                 'INSERT INTO posts (title, content, user_id) VALUES (?, ?, ?)',
-                (title, content, g.user['id'])
+                (title, content, g.user[0])
             )
             conn.commit()
             conn.close()
@@ -49,13 +49,13 @@ def delete(id):
     post = get_post(id)
     if post is None:
         abort(404)
-    if post['user_id'] != g.user['id']:
+    if int(post[4]) != g.user[0]:
         abort(403)
     conn = get_db_conn()
     conn.execute('DELETE FROM posts WHERE id = ?', (id,))
     conn.commit()
     conn.close()
-    flash('"{}" 删除成功!'.format(post['title']))
+    flash('"{}" 删除成功!'.format(post[2]))
     return redirect(url_for('posts.index'))
 
 @posts_bp.route('/posts/<int:id>/edit', methods=('GET', 'POST'))
@@ -65,7 +65,7 @@ def edit(id):
     post = get_post(id)
     if post is None:
         abort(404)
-    if post['user_id'] != g.user['id']:
+    if int(post[4]) != g.user[0]:
         abort(403)
     
     if request.method == 'POST':
@@ -94,15 +94,15 @@ def export_post(post_id):
     if not post:
         abort(404)
 
-    if post['user_id'] != g.user['id']:
+    if int(post[4]) != g.user[0]:
         abort(403)
 
-    content = f"# {post['title']}\n\n{post['content']}"
+    content = f"# {post[2]}\n\n{post[3]}"
     buffer = io.BytesIO(content.encode('utf-8'))
     
     return send_file(
         buffer,
         as_attachment=True,
-        download_name=f"{post['title']}.md",
+        download_name=f"{post[2]}.md",
         mimetype='text/markdown'
     ) 

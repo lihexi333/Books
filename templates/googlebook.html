@@ -16,7 +16,7 @@
         <div id="main">
             <input
             class="input"
-            name="name"
+            name="book_name"
             type="text"
             placeholder="请输入搜索词..."
             value="{{ search_term }}"
@@ -88,8 +88,8 @@
                         <div class="content">
                             <div class="back">
                                 <div class="back-content">
-                                    {% if book.thumbnail %}
-                                        <div class="img" style="background-image: url('{{ book.thumbnail }}');"></div>
+                                    {% if book.get('imageLinks') and book.get('imageLinks').get('thumbnail') %}
+                                        <div class="img" style="background-image: url('{{ book.imageLinks.thumbnail }}');"></div>
                                     {% else %}
                                         <div class="img" style="background-image: url('{{ url_for('static', filename='img/book-placeholder.png') }}');"></div>
                                     {% endif %}

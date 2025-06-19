@@ -9,6 +9,8 @@ def create_app():
 
     # 获取当前文件的绝对路径
     current_dir = os.path.dirname(os.path.abspath(__file__))
+    # `template_dir`和`static_dir`的路径是相对于当前文件的
+    # 当`init_env.py`在`Books`目录下时，这两个路径是正确的
     template_dir = os.path.join(current_dir, 'templates')
     static_dir = os.path.join(current_dir, 'static')
 
@@ -29,25 +31,25 @@ def create_app():
         pass
 
     # 初始化数据库
-    from . import db_utils
-    db_utils.init_app(app)
+    from db_utils import init_app as init_db_app
+    init_db_app(app)
 
     # 注册错误处理器
-    from .errors import register_error_handlers
+    from errors import register_error_handlers
     register_error_handlers(app)
 
     # 注册蓝图
-    from . import auth
-    app.register_blueprint(auth.auth_bp)
+    from auth import auth_bp
+    app.register_blueprint(auth_bp)
 
-    from . import posts
-    app.register_blueprint(posts.posts_bp)
+    from posts import posts_bp
+    app.register_blueprint(posts_bp)
     
-    from . import books_bp
-    app.register_blueprint(books_bp.books_bp)
+    from books_bp import books_bp
+    app.register_blueprint(books_bp)
 
-    from . import markdown_bp
-    app.register_blueprint(markdown_bp.markdown_bp)
+    from markdown_bp import markdown_bp
+    app.register_blueprint(markdown_bp)
 
     # 将index设置为posts.index, 这样访问/时会调用posts蓝图的index视图
     app.add_url_rule('/', endpoint='posts.index')

@@ -35,13 +35,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">首页</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('books') }}">图书馆</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('googlebook') }}">查图书</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('edit_markdown') }}">Markdown编辑</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">写文章</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('posts.index') }}">首页</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('books.list_books') }}">图书馆</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('books.googlebook') }}">查图书</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('markdown.edit_markdown') }}">Markdown编辑</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('posts.new') }}">写文章</a></li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('logout') }}">退出登录</a>
+                    <a class="nav-link" href="{{ url_for('auth.logout') }}">退出登录</a>
                 </li>
             </ul>
         </div>

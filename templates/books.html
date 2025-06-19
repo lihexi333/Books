@@ -4,10 +4,10 @@
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>书籍列表（100本）</h2>
     <div>
-      <a href="{{ url_for('books', sort='date_desc') }}" class="btn btn-outline-primary btn-sm {% if sort == 'date_desc' %}active{% endif %}">出版时间降序</a>
-      <a href="{{ url_for('books', sort='date_asc') }}" class="btn btn-outline-primary btn-sm {% if sort == 'date_asc' %}active{% endif %}">出版时间升序</a>
-      <a href="{{ url_for('books', sort='alpha_asc') }}" class="btn btn-outline-primary btn-sm {% if sort == 'alpha_asc' %}active{% endif %}">首字母升序</a>
-      <a href="{{ url_for('books', sort='alpha_desc') }}" class="btn btn-outline-primary btn-sm {% if sort == 'alpha_desc' %}active{% endif %}">首字母降序</a>
+      <a href="{{ url_for('books.list_books', sort='date_desc') }}" class="btn btn-outline-primary btn-sm {% if sort == 'date_desc' %}active{% endif %}">出版时间降序</a>
+      <a href="{{ url_for('books.list_books', sort='date_asc') }}" class="btn btn-outline-primary btn-sm {% if sort == 'date_asc' %}active{% endif %}">出版时间升序</a>
+      <a href="{{ url_for('books.list_books', sort='alpha_asc') }}" class="btn btn-outline-primary btn-sm {% if sort == 'alpha_asc' %}active{% endif %}">首字母升序</a>
+      <a href="{{ url_for('books.list_books', sort='alpha_desc') }}" class="btn btn-outline-primary btn-sm {% if sort == 'alpha_desc' %}active{% endif %}">首字母降序</a>
     </div>
   </div>
   <div class="row">

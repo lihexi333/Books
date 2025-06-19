@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, g, abort
-from .db_utils import get_db_conn, get_post
+from db_utils import get_db_conn, get_post
 import requests
 
 books_bp = Blueprint('books', __name__, url_prefix="/books")
@@ -13,7 +13,8 @@ def get_book_info_by_name(name):
         data = response.json()
 
         if "items" in data and data["items"]:
-            return data["items"]
+            # 直接返回包含图书详细信息的volumeInfo列表
+            return [item.get('volumeInfo', {}) for item in data["items"]]
         else:
             return []
     except requests.exceptions.RequestException as e:
@@ -40,9 +41,9 @@ def list_books():
     sort = request.args.get('sort', 'date_desc')  # 默认按出版时间降序
     conn = get_db_conn()
     
-    order_by_clause = 'ORDER BY published_date DESC'
+    order_by_clause = 'ORDER BY publishedDate DESC'
     if sort == 'date_asc':
-        order_by_clause = 'ORDER BY published_date ASC'
+        order_by_clause = 'ORDER BY publishedDate ASC'
     elif sort == 'title_asc':
         order_by_clause = 'ORDER BY title ASC'
     elif sort == 'title_desc':

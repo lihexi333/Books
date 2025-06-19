@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session, g, abort
 from werkzeug.security import generate_password_hash, check_password_hash
-from .db_utils import get_db_conn, get_user_by_username, get_user_by_id
-from .utils import send_email
+from db_utils import get_db_conn, get_user_by_username, get_user_by_id
+from utils import send_email
 import time
 import random
 
@@ -47,12 +47,12 @@ def login():
         user = get_user_by_username(username)
         error = None
 
-        if user is None or not check_password_hash(user['password'], password):
+        if user is None or not check_password_hash(user[2], password):
             error = '用户名或密码错误'
 
         if error is None:
             session.clear()
-            session['user_id'] = user['id']
+            session['user_id'] = user[0]
             return redirect(url_for('posts.index'))
 
         flash(error)
@@ -70,7 +70,6 @@ def forgot_password():
         email = request.form['email']
         conn = get_db_conn()
         user = conn.execute('SELECT * FROM users WHERE email = ?', (email,)).fetchone()
-        conn.close()
 
         if user:
             token = ''.join(random.choices('0123456789', k=6))
@@ -108,7 +107,6 @@ def reset_password():
                 (generate_password_hash(new_password), reset_info['email'])
             )
             conn.commit()
-            conn.close()
             
             session.pop('reset_token', None)
             flash('密码重置成功')

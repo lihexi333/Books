@@ -23,7 +23,7 @@
   <hr>  
 
 <!-- 编辑按钮 --> 
-<a href=" {{ url_for('edit', id=post['id']) }}">
+<a href=" {{ url_for('posts.edit', id=post['id']) }}">
     <button class="edit-button">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style4.css') }}">
     <svg class="edit-svgIcon" viewBox="0 0 512 512">
@@ -32,7 +32,7 @@
     </button></a>
 
 <!-- 删除按钮 -->
-<form action="{{ url_for('delete', id=post['id']) }}" method="POST" style="display:inline;">
+<form action="{{ url_for('posts.delete', id=post['id']) }}" method="POST" style="display:inline;">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style3.css') }}">
     <button class="button btn-danger btn-sm" type="submit" onclick="return confirm('确定要删除吗?')">
       <span>删除</span>
@@ -43,7 +43,7 @@
 </form>
 
 <!-- From Uiverse.io by andrew-demchenk0 --> 
-<button type="button" class="button" onclick="window.location.href='{{ url_for('export_post', post_id=post['id']) }}'">
+<button type="button" class="button" onclick="window.location.href='{{ url_for('posts.export_post', post_id=post['id']) }}'">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style11.css') }}">
   <span class="button__text">Download</span>
   <span class="button__icon"><svg class="svg" data-name="Layer 2" id="bdd05811-e15d-428c-bb53-8661459f9307" viewBox="0 0 35 35" xmlns="http://www.w3.org/2000/svg"><path d="M17.5,22.131a1.249,1.249,0,0,1-1.25-1.25V2.187a1.25,1.25,0,0,1,2.5,0V20.881A1.25,1.25,0,0,1,17.5,22.131Z"></path><path d="M17.5,22.693a3.189,3.189,0,0,1-2.262-.936L8.487,15.006a1.249,1.249,0,0,1,1.767-1.767l6.751,6.751a.7.7,0,0,0,.99,0l6.751-6.751a1.25,1.25,0,0,1,1.768,1.767l-6.752,6.751A3.191,3.191,0,0,1,17.5,22.693Z"></path><path d="M31.436,34.063H3.564A3.318,3.318,0,0,1,.25,30.749V22.011a1.25,1.25,0,0,1,2.5,0v8.738a.815.815,0,0,0,.814.814H31.436a.815.815,0,0,0,.814-.814V22.011a1.25,1.25,0,1,1,2.5,0v8.738A3.318,3.318,0,0,1,31.436,34.063Z"></path></svg></span>

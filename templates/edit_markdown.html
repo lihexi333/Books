@@ -6,7 +6,7 @@
     <div class="col-md-6">
       <form method="post" id="md-form">
         <textarea id="md-input" name="content" rows="20" class="form-control">{{ content }}</textarea>
-        <a href="{{ url_for('export_markdown') }}" class="btn btn-success mt-2">导出为 Markdown 文件</a>
+        <a href="{{ url_for('markdown.export_markdown') }}" class="btn btn-success mt-2">导出为 Markdown 文件</a>
         <button type="submit" class="btn btn-primary mt-2">保存</button>
       </form>
     </div>
