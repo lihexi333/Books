@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, session, g, abort, send_file, redirect, url_for
-from db_utils import get_db_conn
+from db_utils import get_markdown_by_user_id, save_markdown
 import markdown as md
 import io
 
@@ -9,29 +9,17 @@ markdown_bp = Blueprint('markdown', __name__, url_prefix='/markdown')
 def edit_markdown():
     if 'user_id' not in session:
         abort(401)
+    
+    user_id = session['user_id']
 
     if request.method == 'POST':
         content = request.form['content']
-        user_id = session['user_id']
-        
-        conn = get_db_conn()
-        # 检查用户是否已有Markdown内容
-        user_md = conn.execute('SELECT * FROM user_markdown WHERE user_id = ?', (user_id,)).fetchone()
-
-        if user_md:
-            conn.execute('UPDATE user_markdown SET content = ? WHERE user_id = ?', (content, user_id))
-        else:
-            conn.execute('INSERT INTO user_markdown (user_id, content) VALUES (?, ?)', (user_id, content))
-        
-        conn.commit()
+        save_markdown(user_id, content)
         return redirect(url_for('markdown.view_markdown'))
 
     # GET请求，加载已保存的内容
-    user_id = session['user_id']
-    conn = get_db_conn()
-    user_md = conn.execute('SELECT content FROM user_markdown WHERE user_id = ?', (user_id,)).fetchone()
-    
-    content = user_md[0] if user_md else ''
+    user_md = get_markdown_by_user_id(user_id)
+    content = user_md['content'] if user_md else ''
     return render_template('edit_markdown.html', content=content)
 
 @markdown_bp.route('/view')
@@ -40,11 +28,10 @@ def view_markdown():
         abort(401)
     
     user_id = session['user_id']
-    conn = get_db_conn()
-    user_md = conn.execute('SELECT content FROM user_markdown WHERE user_id = ?', (user_id,)).fetchone()
+    user_md = get_markdown_by_user_id(user_id)
     
-    content = user_md[0] if user_md else ''
-    html_content = md.markdown(content)
+    content = user_md['content'] if user_md else ''
+    html_content = md.markdown(content, extensions=['fenced_code', 'tables', 'codehilite'])
     
     return render_template('view_markdown.html', html_content=html_content)
 
@@ -54,13 +41,12 @@ def export_markdown():
         abort(401)
     
     user_id = session['user_id']
-    conn = get_db_conn()
-    user_md = conn.execute('SELECT content FROM user_markdown WHERE user_id = ?', (user_id,)).fetchone()
+    user_md = get_markdown_by_user_id(user_id)
     
     if not user_md:
         return "没有可导出的内容", 404
         
-    buffer = io.BytesIO(user_md[0].encode('utf-8'))
+    buffer = io.BytesIO(user_md['content'].encode('utf-8'))
     
     return send_file(
         buffer,
