@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .card {
+        background-color: #fff;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        border: none;
+    }
+    
+    .card-header {
+        background-color: #612b88;
+        color: white;
+        border-radius: 10px 10px 0 0 !important;
+        padding: 15px 20px;
+        font-weight: 500;
+    }
+    
+    .form-control:focus {
+        border-color: #612b88;
+        box-shadow: 0 0 0 0.25rem rgba(97, 43, 136, 0.25);
+    }
+    
+    .btn-primary {
+        background-color: #612b88;
+        border-color: #612b88;
+    }
+    
+    .btn-primary:hover {
+        background-color: #4e2370;
+        border-color: #4e2370;
+    }
+    
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+    
+    .book-form label {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0"><i class="fas fa-book"></i> 添加新图书</h4>
+                    <a href="{{ url_for('books.list_books') }}" class="btn btn-sm btn-light">返回书籍列表</a>
+                </div>
+                
+                <div class="card-body p-4">
+                    <form method="post" class="book-form">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="title">书名</label>
+                                <input type="text" id="title" name="title" placeholder="请输入书名" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="authors">作者</label>
+                                <input type="text" id="authors" name="authors" placeholder="作者姓名，多位作者用逗号分隔" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="publisher">出版社</label>
+                                <input type="text" id="publisher" name="publisher" placeholder="出版社名称" class="form-control">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="publishedDate">出版日期</label>
+                                <input type="text" id="publishedDate" name="publishedDate" placeholder="格式：YYYY-MM-DD" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="description">简介</label>
+                            <textarea id="description" name="description" rows="4" placeholder="图书简介内容" class="form-control"></textarea>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="thumbnail">封面图片链接</label>
+                                <input type="text" id="thumbnail" name="thumbnail" placeholder="HTTP 链接地址" class="form-control">
+                                <small class="form-text text-muted">图片链接必须以 http:// 或 https:// 开头</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="infoLink">详情页链接</label>
+                                <input type="text" id="infoLink" name="infoLink" placeholder="HTTP 链接地址" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{{ url_for('books.list_books') }}" class="btn btn-secondary">取消</a>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> 添加图书</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

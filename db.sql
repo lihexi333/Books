@@ -8,7 +8,8 @@ CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,         -- 用户唯一编号
     username VARCHAR(20) UNIQUE NOT NULL,         -- 用户名
     password TEXT NOT NULL,                       -- 密码（加密存储）
-    email VARCHAR(50) UNIQUE NOT NULL             -- 邮箱
+    email VARCHAR(50) UNIQUE NOT NULL,             -- 邮箱
+    is_admin INTEGER DEFAULT 0                     -- 0为普通用户，1为管理员
 );
 
 CREATE TABLE posts (

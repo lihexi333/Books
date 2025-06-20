@@ -11,11 +11,21 @@
 <div class="container">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>书籍列表（100本）</h2>
-    <div>
-      <a href="{{ url_for('books.list_books', sort='date_desc') }}" class="btn btn-outline-primary btn-sm {% if sort == 'date_desc' %}active{% endif %}">出版时间降序</a>
-      <a href="{{ url_for('books.list_books', sort='date_asc') }}" class="btn btn-outline-primary btn-sm {% if sort == 'date_asc' %}active{% endif %}">出版时间升序</a>
-      <a href="{{ url_for('books.list_books', sort='alpha_asc') }}" class="btn btn-outline-primary btn-sm {% if sort == 'alpha_asc' %}active{% endif %}">首字母升序</a>
-      <a href="{{ url_for('books.list_books', sort='alpha_desc') }}" class="btn btn-outline-primary btn-sm {% if sort == 'alpha_desc' %}active{% endif %}">首字母降序</a>
+    <div class="d-flex align-items-center">
+      <!-- 排序按钮 -->
+      <div class="me-3">
+        <a href="{{ url_for('books.list_books', sort='date_desc') }}" class="btn btn-outline-primary btn-sm {% if sort == 'date_desc' %}active{% endif %}">出版时间降序</a>
+        <a href="{{ url_for('books.list_books', sort='date_asc') }}" class="btn btn-outline-primary btn-sm {% if sort == 'date_asc' %}active{% endif %}">出版时间升序</a>
+        <a href="{{ url_for('books.list_books', sort='alpha_asc') }}" class="btn btn-outline-primary btn-sm {% if sort == 'alpha_asc' %}active{% endif %}">首字母升序</a>
+        <a href="{{ url_for('books.list_books', sort='alpha_desc') }}" class="btn btn-outline-primary btn-sm {% if sort == 'alpha_desc' %}active{% endif %}">首字母降序</a>
+      </div>
+      
+      <!-- 管理员添加图书按钮 -->
+      {% if session.is_admin %}
+      <a href="{{ url_for('auth.admin_add_book') }}" class="btn btn-success btn-sm">
+        <i class="fas fa-plus"></i> 添加图书
+      </a>
+      {% endif %}
     </div>
   </div>
   <div class="row">
@@ -90,7 +100,13 @@
             </div>
         </div>
 
- 
+        {% if session.is_admin %}
+          <div class="card-footer text-end bg-transparent">
+            <form action="{{ url_for('auth.admin_delete_book', book_id=book['id']) }}" method="post" style="display:inline;">
+              <button type="submit" class="btn btn-danger btn-sm">删除</button>
+            </form>
+          </div>
+        {% endif %}
       </div>
     </div>
     {% endfor %}
