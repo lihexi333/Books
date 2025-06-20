@@ -102,3 +102,85 @@ def save_markdown(user_id, content):
             (user_id, content)
         )
     db.commit()
+
+def save_book_to_db(book):
+    """将单本图书信息保存到数据库，如果标题已存在则忽略"""
+    conn = get_db_conn()
+    
+    # 检查标题是否已存在
+    existing = conn.execute('SELECT id FROM books WHERE title = ?', (book.get('title'),)).fetchone()
+    if existing:
+        return
+
+    conn.execute('''
+        INSERT INTO books (title, authors, publisher, publishedDate, description, thumbnail, infoLink)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ''', (
+        book.get('title'),
+        ', '.join(book.get('authors', [])) if book.get('authors') else None,
+        book.get('publisher'),
+        book.get('publishedDate'),
+        book.get('description'),
+        book.get('imageLinks', {}).get('thumbnail'),
+        book.get('infoLink')
+    ))
+    conn.commit()
+
+def fetch_books_from_api():
+    """从Google Books API获取图书并存入数据库"""
+    import requests
+    import time
+
+    keywords = ['python', 'java', 'flask', 'django', 'javascript', 'html', 'css', 'sql', 'docker', 'linux']
+    books_collected = 0
+    
+    conn = get_db_conn()
+    existing_titles_rows = conn.execute('SELECT title FROM books').fetchall()
+    seen_titles = {row['title'] for row in existing_titles_rows}
+    
+    print("开始从Google Books API获取图书...")
+
+    for kw in keywords:
+        if books_collected >= 100:
+            break
+        for start in range(0, 40, 10):
+            if books_collected >= 100:
+                break
+            
+            url = f'https://www.googleapis.com/books/v1/volumes?q={kw}&startIndex={start}&maxResults=10'
+            try:
+                resp = requests.get(url, timeout=10)
+                resp.raise_for_status()
+                data = resp.json()
+                items = data.get('items', [])
+            except requests.exceptions.RequestException as e:
+                print(f"请求API时出错: {e}")
+                continue
+            
+            for item in items:
+                if books_collected >= 100:
+                    break
+                info = item.get('volumeInfo', {})
+                title = info.get('title')
+                
+                if not title or title in seen_titles:
+                    continue
+                
+                # 创建一个 book 字典传递给 save_book_to_db
+                book_data = {
+                    'title': title,
+                    'authors': info.get('authors', []),
+                    'publisher': info.get('publisher'),
+                    'publishedDate': info.get('publishedDate'),
+                    'description': info.get('description'),
+                    'imageLinks': info.get('imageLinks', {}),
+                    'infoLink': info.get('infoLink')
+                }
+                save_book_to_db(book_data) # 使用 save_book_to_db 函数
+                seen_titles.add(title)
+                books_collected += 1
+                print(f'已收集 {books_collected}/100 本: {title}')
+
+            time.sleep(1)
+
+    print(f"\n图书收集完成, 共收集 {books_collected} 本.")
