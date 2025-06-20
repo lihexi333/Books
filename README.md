@@ -6,12 +6,14 @@
 
 ### 1. 用户管理
 - 用户注册与登录
+- 管理员角色与权限控制
 - 基于邮箱的密码重置
 - 会话管理和认证
 
 ### 2. 图书管理
 - Google Books API 集成
 - 图书搜索与展示
+- 管理员后台添加与删除图书
 - 支持按时间和标题排序
 - 毛玻璃风格的界面设计
 - 响应式卡片布局
@@ -23,18 +25,19 @@
 - 个人文章管理
 
 ### 4. Markdown 编辑器
-- 在线 Markdown 编辑
-- 实时预览
-- 文件导出功能
+- 在线 Markdown 编辑与实时预览
+- 支持代码块语法高亮
+- 内容本地保存与文件导出功能
 
 ## 技术栈
-- 后端：Flask
-- 数据库：SQLite3
-- 前端：
+- **后端**: Flask, Pygments
+- **数据库**: SQLite3
+- **前端**:
+  - JavaScript (Marked.js, highlight.js)
   - Tailwind CSS
   - Bootstrap
   - jQuery
-- 第三方服务：
+- **第三方服务**:
   - Google Books API
   - SMTP 邮件服务
 
@@ -45,7 +48,7 @@ Books/
 ├── .env.example         # 环境变量配置文件示例
 ├── .gitignore           # Git忽略文件配置
 ├── app.py               # 应用入口和命令行接口
-├── auth.py              # 认证蓝图 (登录, 注册, 密码重置)
+├── auth.py              # 认证蓝图 (登录, 注册, 密码重置, 管理员功能)
 ├── books_bp.py          # 图书蓝图 (搜索, 列表)
 ├── book_apitest.py      # Google Books API 测试脚本
 ├── db.sql               # 数据库表结构定义
@@ -79,6 +82,7 @@ Books/
 │       └── jquery.js
 │
 └── templates/           # Jinja2 模板文件
+    ├── admin_add_book.html
     ├── base.html
     ├── books.html
     ├── edit.html
@@ -153,6 +157,7 @@ MAIL_PASSWORD=your-password
    - 访问首页，点击注册/登录
    - 填写相关信息完成注册
    - 登录后可以使用全部功能
+   - 使用 `python app.py init-db` 初始化数据库后，会自动创建管理员账号（用户名：`管理员`，密码：`111`），登录后可管理图书。
 
 2. 图书搜索
    - 在图书搜索页面输入关键词
@@ -182,6 +187,7 @@ MAIL_PASSWORD=your-password
 | `username` | TEXT | UNIQUE, NOT NULL | 用户名 |
 | `password` | TEXT | NOT NULL | 哈希加密后的密码 |
 | `email` | TEXT | UNIQUE, NOT NULL | 用户邮箱 |
+| `is_admin` | INTEGER | NOT NULL, DEFAULT 0 | 是否为管理员 (1是, 0否) |
 
 ### 2. `posts` - 博客文章表
 存储用户发布的博客文章。
