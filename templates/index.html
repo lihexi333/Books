@@ -12,7 +12,7 @@
     {{post['title']}}
   </div>
 
-  <a href="{{url_for('post', post_id=post['id'])}}">
+  <a href="{{url_for('posts.post', post_id=post['id'])}}">
     <div class="box box1 mb-3"><span class="icon"><svg t="1749637062206" class="icon" viewBox="0 0 1024 1024"
           version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1211" width="200" height="200">
           <path
@@ -22,7 +22,7 @@
       </span></div>
   </a>
 
-  <a href="{{ url_for('export_post', post_id=post['id']) }}">
+  <a href="{{ url_for('posts.export_post', post_id=post['id']) }}">
     <div class="box box2 mb-3"> <span class="icon"><svg class="svg" data-name="Layer 2"
           id="bdd05811-e15d-428c-bb53-8661459f9307" viewBox="0 0 35 35" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -50,8 +50,8 @@
 </div>
 {% endfor %}
 
-<!-- From Uiverse.io by gharsh11032000 -->
-<a href="{{ url_for('new') }}">
+<!-- From Uiverse.io by gharsh11032000 --> 
+<a href="{{ url_for('posts.new') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
   <button class="button float-publish-btn">
     记录笔记

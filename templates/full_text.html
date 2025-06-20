@@ -54,12 +54,12 @@
 
 <div class="flex space-x-3 justify-center mt-8">
   <!-- 编辑按钮 -->
-  <a href="{{ url_for('edit', id=post['id']) }}" class="glass-btn glass px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-300">
+  <a href="{{ url_for('posts.edit', id=post['id']) }}" class="glass-btn glass px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-300">
     <span>编辑</span>
   </a>
 
   <!-- 删除按钮 -->
-  <form action="{{ url_for('delete', id=post['id']) }}" method="POST" class="inline">
+  <form action="{{ url_for('posts.delete', id=post['id']) }}" method="POST" class="inline">
     <button class="glass-btn glass px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-300 text-red-400"
             type="submit" onclick="return confirm('确定要删除吗?')">
       <span>删除</span>
@@ -68,7 +68,7 @@
 
   <!-- 下载按钮 -->
   <button type="button" class="glass-btn glass px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-300 text-green-400"
-          onclick="window.location.href='{{ url_for('export_post', post_id=post['id']) }}'">
+          onclick="window.location.href='{{ url_for('posts.export_post', post_id=post['id']) }}'">
     <span class="button__text">导出文本</span>
   </button>
 </div>

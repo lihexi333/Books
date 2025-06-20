@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Bradlynn博客{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
@@ -17,7 +17,6 @@
 
     <!-- AOS 动画 -->
     <link href="https://unpkg.com/aos@next/dist/aos.css" rel="stylesheet">
-
     <style>
         html{
             height: 100%;
@@ -87,8 +86,6 @@
 
         .blog-title {
             font-weight: 700;
-            font-size: 3rem;
-            color: white;
         }
 
         .card {
@@ -115,41 +112,173 @@
         }
     </style>
 </head>
-
-<body>
-    <div class="wrapper">
-        <!-- 导航栏 -->
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container">
-                <a class="navbar-brand" href="#"> &#128210; 线上图书馆博客系统</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">首页</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('books') }}">图书馆</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('googlebook') }}">查图书</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('edit_markdown') }}">Markdown编辑</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">退出登录</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <!-- 欢迎横幅 -->
-        <div class="jumbotron text-center" data-aos="fade-down">
-            <h1 class="blog-title">欢迎来到线上图书馆博客系统</h1>
-            <p class="lead">&#10024;阅读 写作 分享&#10024;</p>
+<body style="height: 100%;">
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Bradlynn博客</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('posts.index') }}">首页</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('books.list_books') }}">图书馆</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('books.googlebook') }}">查图书</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('markdown.edit_markdown') }}">Markdown编辑</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('auth.logout') }}">退出登录</a>
+                </li>
+            </ul>
         </div>
+    </nav>
 
-        <!-- 页面内容 -->
-        <div class="content container">
-            <div class="row">
-                {% block content %}
-                {% endblock %}
-            </div>
-        </div>
+    <!-- 头部横幅 -->
+    <div class="jumbotron text-center mt-4">
+        <h1 class="display-4 blog-title">欢迎来到 Bradlynn 的图书馆</h1>
+        <p class="lead">分享技术、生活与思考</p>
+    </div>
+
+<div class="card-id567">
+    <svg shape-rendering="crispEdges" viewBox="0 -0.5 29 29" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 0h7M8 0h2M14 0h1M16 0h5M22 0h7M0 1h1M6 1h1M13 1h1M17 1h2M22 1h1M28 1h1M0 2h1M2 2h3M6 2h1M8 2h1M11 2h4M18 2h1M20 2h1M22 2h1M24 2h3M28 2h1M0 3h1M2 3h3M6 3h1M8 3h2M11 3h1M13 3h1M15 3h5M22 3h1M24 3h3M28 3h1M0 4h1M2 4h3M6 4h1M8 4h4M13 4h1M15 4h1M19 4h1M22 4h1M24 4h3M28 4h1M0 5h1M6 5h1M9 5h1M12 5h2M17 5h4M22 5h1M28 5h1M0 6h7M8 6h1M10 6h1M12 6h1M14 6h1M16 6h1M18 6h1M20 6h1M22 6h7M9 7h1M11 7h1M15 7h6M0 8h4M6 8h1M8 8h1M13 8h2M17 8h3M21 8h1M24 8h3M28 8h1M2 9h1M4 9h2M7 9h1M9 9h1M14 9h1M16 9h1M19 9h2M22 9h3M28 9h1M0 10h5M6 10h1M8 10h1M13 10h1M16 10h1M18 10h1M20 10h1M22 10h3M26 10h2M1 11h1M3 11h2M7 11h1M11 11h4M16 11h1M18 11h1M20 11h5M28 11h1M1 12h3M5 12h2M9 12h1M11 12h1M13 12h5M19 12h1M25 12h2M0 13h2M3 13h3M8 13h1M10 13h2M14 13h1M16 13h2M19 13h2M22 13h2M26 13h3M0 14h1M2 14h1M4 14h3M9 14h2M12 14h1M14 14h1M16 14h1M19 14h3M23 14h2M26 14h3M0 15h2M3 15h2M8 15h1M12 15h1M14 15h3M20 15h1M22 15h3M27 15h1M0 16h1M2 16h3M6 16h1M10 16h2M18 16h1M20 16h2M24 16h2M27 16h1M1 17h2M4 17h1M7 17h3M12 17h1M14 17h2M18 17h1M20 17h2M23 17h1M25 17h3M0 18h1M3 18h1M6 18h1M8 18h5M15 18h2M23 18h1M26 18h1M2 19h4M12 19h1M14 19h1M16 19h2M19 19h3M26 19h1M1 20h1M3 20h1M6 20h7M14 20h2M17 20h10M8 21h3M12 21h1M18 21h1M20 21h1M24 21h5M0 22h7M9 22h6M19 22h2M22 22h1M24 22h2M27 22h1M0 23h1M6 23h1M9 23h1M13 23h3M18 23h1M20 23h1M24 23h2M27 23h1M0 24h1M2 24h3M6 24h1M10 24h1M12 24h1M14 24h4M20 24h5M26 24h3M0 25h1M2 25h3M6 25h1M8 25h1M11 25h2M15 25h2M19 25h3M24 25h2M28 25h1M0 26h1M2 26h3M6 26h1M8 26h1M10 26h2M13 26h1M21 26h1M23 26h1M26 26h1M28 26h1M0 27h1M6 27h1M8 27h1M11 27h1M14 27h1M16 27h1M18 27h3M23 27h1M25 27h1M27 27h1M0 28h7M8 28h1M14 28h3M19 28h2M25 28h1M27 28h1" stroke="#000000"></path>
+    </svg>
+
+    <div class="prompt-id567">
+      <div class="token-container">
+
+      <svg viewBox="0 0 24 24" fill="none" class="creator-points" xmlns="http://www.w3.org/2000/svg"><path d="M19.4133 4.89862L14.5863 2.17544C12.9911 1.27485 11.0089 1.27485 9.41368 2.17544L4.58674 4.89862C2.99153 5.7992 2 7.47596 2 9.2763V14.7235C2 16.5238 2.99153 18.2014 4.58674 19.1012L9.41368 21.8252C10.2079 22.2734 11.105 22.5 12.0046 22.5C12.6952 22.5 13.3874 22.3657 14.0349 22.0954C14.2204 22.018 14.4059 21.9273 14.5872 21.8252L19.4141 19.1012C19.9765 18.7831 20.4655 18.3728 20.8651 17.8825C21.597 16.9894 22 15.8671 22 14.7243V9.27713C22 7.47678 21.0085 5.7992 19.4133 4.89862ZM4.10784 14.7235V9.2763C4.10784 8.20928 4.6955 7.21559 5.64066 6.68166L10.4676 3.95848C10.9398 3.69152 11.4701 3.55804 11.9996 3.55804C12.5291 3.55804 13.0594 3.69152 13.5324 3.95848L18.3593 6.68166C19.3045 7.21476 19.8922 8.20928 19.8922 9.2763V9.75997C19.1426 9.60836 18.377 9.53091 17.6022 9.53091C14.7929 9.53091 12.1041 10.5501 10.0309 12.3999C8.36735 13.8847 7.21142 15.8012 6.68783 17.9081L5.63981 17.3165C4.69466 16.7834 4.10699 15.7897 4.10699 14.7235H4.10784ZM10.4676 20.0413L8.60933 18.9924C8.94996 17.0479 9.94402 15.2665 11.4515 13.921C13.1353 12.4181 15.3198 11.5908 17.6022 11.5908C18.3804 11.5908 19.1477 11.6864 19.8922 11.8742V14.7235C19.8922 15.2278 19.7589 15.7254 19.5119 16.1662C18.7615 15.3596 17.6806 14.8528 16.4783 14.8528C14.2136 14.8528 12.3781 16.6466 12.3781 18.8598C12.3781 19.3937 12.4861 19.9021 12.68 20.3676C11.9347 20.5316 11.1396 20.4203 10.4684 20.0413H10.4676Z" fill="currentColor"></path></svg>
+      </div>
+      <div class="blurry-splash"></div>
+      <p>支持作者<br><span class="bold-567">轻触图标</span> </p>
+      <p class="really-small-text">*at the expense of your sanity</p>
+    </div>
+    <script>
+      // 简单可靠的高性能拖拽实现
+      document.addEventListener('DOMContentLoaded', function() {
+        // 获取卡片元素
+        const card = document.querySelector('.card-id567');
+        if (!card) return; // 防止卡片元素不存在时的错误
+
+        // 拖拽状态变量
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        // 设置卡片初始样式
+        card.style.position = 'fixed';
+        card.style.top = '30px';
+        card.style.left = '30px';
+        card.style.cursor = 'grab';
+        card.style.zIndex = '9999';
+        card.style.userSelect = 'none';
+
+        // 鼠标按下事件
+        card.addEventListener('mousedown', function(e) {
+          isDragging = true;
+
+          // 获取卡片当前位置
+          const rect = card.getBoundingClientRect();
+
+          // 计算鼠标在卡片内的位置
+          offsetX = e.clientX - rect.left;
+          offsetY = e.clientY - rect.top;
+
+          card.style.cursor = 'grabbing';
+          e.preventDefault(); // 防止选择文本
+        });
+
+        // 触摸开始事件
+        card.addEventListener('touchstart', function(e) {
+          if (e.touches.length === 1) {
+            isDragging = true;
+
+            // 获取卡片当前位置
+            const rect = card.getBoundingClientRect();
+
+            // 计算触摸点在卡片内的位置
+            offsetX = e.touches[0].clientX - rect.left;
+            offsetY = e.touches[0].clientY - rect.top;
+
+            card.style.cursor = 'grabbing';
+            e.preventDefault(); // 防止滚动
+          }
+        });
+
+        // 鼠标移动事件
+        document.addEventListener('mousemove', function(e) {
+          if (!isDragging) return;
+
+          // 计算新位置
+          const newX = e.clientX - offsetX;
+          const newY = e.clientY - offsetY;
+
+          // 确保不超出屏幕
+          const maxX = window.innerWidth - card.offsetWidth;
+          const maxY = window.innerHeight - card.offsetHeight;
+
+          // 应用位置 (使用left/top确保兼容性)
+          card.style.left = `${Math.max(0, Math.min(newX, maxX))}px`;
+          card.style.top = `${Math.max(0, Math.min(newY, maxY))}px`;
+        });
+
+        // 触摸移动事件
+        document.addEventListener('touchmove', function(e) {
+          if (!isDragging) return;
+
+          if (e.touches.length === 1) {
+            // 计算新位置
+            const newX = e.touches[0].clientX - offsetX;
+            const newY = e.touches[0].clientY - offsetY;
+
+            // 确保不超出屏幕
+            const maxX = window.innerWidth - card.offsetWidth;
+            const maxY = window.innerHeight - card.offsetHeight;
+
+            // 应用位置
+            card.style.left = `${Math.max(0, Math.min(newX, maxX))}px`;
+            card.style.top = `${Math.max(0, Math.min(newY, maxY))}px`;
+
+            e.preventDefault(); // 防止页面滚动
+          }
+        });
+
+        // 鼠标释放事件
+        document.addEventListener('mouseup', function() {
+          if (isDragging) {
+            isDragging = false;
+            card.style.cursor = 'grab';
+          }
+        });
+
+        // 触摸结束事件
+        document.addEventListener('touchend', function() {
+          if (isDragging) {
+            isDragging = false;
+            card.style.cursor = 'grab';
+          }
+        });
+
+        // 窗口大小变化时，确保卡片不会超出屏幕
+        window.addEventListener('resize', function() {
+          const rect = card.getBoundingClientRect();
+          const maxX = window.innerWidth - card.offsetWidth;
+          const maxY = window.innerHeight - card.offsetHeight;
+
+          if (rect.right > window.innerWidth) {
+            card.style.left = `${maxX}px`;
+          }
+
+          if (rect.bottom > window.innerHeight) {
+            card.style.top = `${maxY}px`;
+          }
+        });
+      });
+    </script>
+  </div>
+    <!-- 此处是博客动态内容的实现，在index.html文件中可见 -->
+    <div class="container h-100" style="margin-bottom: 100px;"  >
+            {% block content %}
+            {% endblock %}
+    </div>
 
         <!-- 页脚 -->
         <footer class="footer text-center mt-5">
