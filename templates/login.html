@@ -68,3 +68,7 @@
     </ul>
   {% endif %}
 {% endwith %}
+
+{% if session.is_admin %}
+  <a href="{{ url_for('admin_add_book') }}" class="btn btn-success">添加图书</a>
+{% endif %}

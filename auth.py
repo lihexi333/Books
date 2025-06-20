@@ -45,19 +45,48 @@ def login():
         username = request.form['username']
         password = request.form['password']
         user = get_user_by_username(username)
-        error = None
-
-        if user is None or not check_password_hash(user[2], password):
-            error = '用户名或密码错误'
-
-        if error is None:
+        if user and check_password_hash(user['password'], password):
             session.clear()
-            session['user_id'] = user[0]
+            session['user_id'] = user['id']
+            session['is_admin'] = user['is_admin']  # 记录是否管理员
+            flash('登录成功')
             return redirect(url_for('posts.index'))
-
-        flash(error)
-
+        else:
+            flash('用户名或密码错误')
     return render_template('login.html')
+
+@auth_bp.route('/admin/books/add', methods=['GET', 'POST'])
+def admin_add_book():
+    if not session.get('is_admin'):
+        abort(403)
+    if request.method == 'POST':
+        title = request.form['title']
+        authors = request.form['authors']
+        publisher = request.form['publisher']
+        publishedDate = request.form['publishedDate']
+        description = request.form['description']
+        thumbnail = request.form['thumbnail']
+        infoLink = request.form['infoLink']
+        conn = get_db_conn()
+        conn.execute('INSERT INTO books (title, authors, publisher, publishedDate, description, thumbnail, infoLink) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                     (title, authors, publisher, publishedDate, description, thumbnail, infoLink))
+        conn.commit()
+        conn.close()
+        flash('图书添加成功')
+        return redirect(url_for('books.list_books'))
+    return render_template('admin_add_book.html')
+
+@auth_bp.route('/admin/books/<int:book_id>/delete', methods=['POST'])
+def admin_delete_book(book_id):
+    if not session.get('is_admin'):
+        abort(403)
+    conn = get_db_conn()
+    conn.execute('DELETE FROM books WHERE id=?', (book_id,))
+    conn.commit()
+    conn.close()
+    flash('图书删除成功')
+    return redirect(url_for('books.list_books'))
+
 
 @auth_bp.route('/logout')
 def logout():

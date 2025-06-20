@@ -1,6 +1,7 @@
 import sqlite3
 import os
 from flask import current_app, g
+from werkzeug.security import generate_password_hash
 
 def get_db_conn():
     if 'db' not in g:
@@ -28,13 +29,22 @@ def close_db(e=None):
 def init_db():
     db = get_db_conn()
 
-    with current_app.open_resource('db.sql', mode='r') as f:
+    with current_app.open_resource('db.sql', mode='r', encoding='utf-8') as f:
         db.executescript(f.read())
     
-    # 先插入一个测试用户
-    db.execute("INSERT INTO users (username, password, email) VALUES (?, ?, ?)", ('testuser', 'pbkdf2:sha256:600000$lA381FpA1N7xVbF3$87a17533879e0f065ba259d863f6f4e2c2f719e7a88e99905a2879133b05a557', 'testuser@example.com'))
+    # 插入管理员账号（用户名：管理员，密码：111，邮箱：admin@example.com，is_admin=1）
+    db.execute(
+        "INSERT INTO users (username, password, email, is_admin) VALUES (?, ?, ?, ?)",
+        ('管理员', generate_password_hash('111'), 'admin@example.com', 1)
+    )
 
-    #再插入两条博客，user_id=1
+    # 先插入一个测试用户
+    db.execute(
+        "INSERT INTO users (username, password, email) VALUES (?, ?, ?)",
+        ('testuser', generate_password_hash('111'), 'testuser@example.com')
+    )
+
+    # 再插入两条博客，user_id=1
     db.execute("INSERT INTO posts (title, content, user_id) VALUES (?, ?, ?)", ('学习Flask1', '第一条实例', 1))
     db.execute("INSERT INTO posts (title, content, user_id) VALUES (?, ?, ?)", ('学习Flask2', '第二条示例', 1))
 
