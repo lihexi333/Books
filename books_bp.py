@@ -6,7 +6,7 @@ books_bp = Blueprint('books', __name__, url_prefix="/books")
 
 def get_book_info_by_name(name):
     """通过书名从Google Books API获取图书信息"""
-    url = f"https://www.googleapis.com/books/v1/volumes?q={name}"
+    url = f"https://www.googleapis.com/books/v1/volumes?q={name}&maxResults=40"
     try:
         response = requests.get(url)
         response.raise_for_status()  # 如果请求失败则抛出HTTPError
