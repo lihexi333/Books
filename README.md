@@ -54,7 +54,6 @@ Books/
 ├── db.sql               # 数据库表结构定义
 ├── db_utils.py          # 数据库连接和操作工具
 ├── errors.py            # Flask错误处理器
-├── fetch_books.py       # (弃用) 用于爬取图书信息的脚本
 ├── init_env.py          # 应用工厂 (create_app)
 ├── markdown_bp.py       # Markdown编辑器蓝图
 ├── posts.py             # 博客文章蓝图
@@ -122,9 +121,13 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-4. 初始化数据库：
+4. 初始化数据库并填充图书：
 ```bash
+# 初始化数据库表结构，并创建管理员账号
 python app.py init-db
+
+# 从Google Books API获取约100本图书数据并存入数据库
+python app.py fetch-books
 ```
 
 ## 运行说明
@@ -159,10 +162,10 @@ MAIL_PASSWORD=your-password
    - 登录后可以使用全部功能
    - 使用 `python app.py init-db` 初始化数据库后，会自动创建管理员账号（用户名：`管理员`，密码：`111`），登录后可管理图书。
 
-2. 图书搜索
-   - 在图书搜索页面输入关键词
-   - 系统会调用 Google Books API 搜索相关图书
-   - 以卡片形式展示搜索结果
+2. 图书搜索与填充
+   - 运行 `python app.py fetch-books` 命令，可自动从 Google Books API 抓取约100本图书并存入本地数据库。
+   - 在“查图书”页面输入关键词，可以实时搜索图书。
+   - 在“图书馆”页面可以查看所有已存入本地数据库的图书。
 
 3. 博客管理
    - 创建新文章
