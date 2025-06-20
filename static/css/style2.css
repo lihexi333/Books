@@ -57,7 +57,7 @@
   .float-publish-btn {
     position: fixed;
     right: 40px;      /* 距离右侧40px，可根据需要调整 */
-    bottom: 40px;     /* 距离底部40px，可根据需要调整 */
+    bottom: 100px;     /* 距离底部40px，可根据需要调整 */
     z-index: 9999;    /* 保证在最上层 */
     /* 你可以加上自己的美化样式 */
     box-shadow: 0 4px 16px rgba(0,0,0,0.15);
