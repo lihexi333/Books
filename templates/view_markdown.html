@@ -7,8 +7,12 @@
 </style>
 <div class="container">
   <h2 style="color: #a4a4a4;">Markdown 预览</h2>
-  <div class="card card-body">
-    {{ html|safe }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style5.css') }}">
+  <div class="card">
+      <div class="card-title">预览</div>
+      <div class="code-editor">
+          {{ html_content | safe }}
+      </div>
   </div>
   <a href="{{ url_for('markdown.edit_markdown') }}" class="btn btn-link mt-2">编辑</a>
 </div>

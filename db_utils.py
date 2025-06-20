@@ -59,6 +59,34 @@ def get_user_by_username(username):
     return user
 
 def get_user_by_id(user_id):
-    conn = get_db_conn()
-    user = conn.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
+    db = get_db_conn()
+    user = db.execute(
+        'SELECT * FROM users WHERE id = ?', (user_id,)
+    ).fetchone()
     return user
+
+def get_markdown_by_user_id(user_id):
+    """根据用户ID获取其Markdown内容"""
+    db = get_db_conn()
+    markdown = db.execute(
+        'SELECT content FROM user_markdown WHERE user_id = ?', (user_id,)
+    ).fetchone()
+    return markdown
+
+def save_markdown(user_id, content):
+    """为用户保存（插入或更新）Markdown内容"""
+    db = get_db_conn()
+    user_md = db.execute(
+        'SELECT id FROM user_markdown WHERE user_id = ?', (user_id,)
+    ).fetchone()
+
+    if user_md:
+        db.execute(
+            'UPDATE user_markdown SET content = ? WHERE user_id = ?', (content, user_id)
+        )
+    else:
+        db.execute(
+            'INSERT INTO user_markdown (user_id, content) VALUES (?, ?)',
+            (user_id, content)
+        )
+    db.commit()

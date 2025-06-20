@@ -41,18 +41,59 @@
 ## 项目结构
 ```
 Books/
-├── app.py              # 应用入口
-├── auth.py            # 用户认证模块
-├── books_bp.py        # 图书管理模块
-├── db_utils.py        # 数据库工具
-├── errors.py          # 错误处理
-├── markdown_bp.py     # Markdown编辑器模块
-├── posts.py           # 博客文章模块
-└── templates/         # 模板文件
+├── .env                 # 环境变量配置文件 (本地)
+├── .env.example         # 环境变量配置文件示例
+├── .gitignore           # Git忽略文件配置
+├── app.py               # 应用入口和命令行接口
+├── auth.py              # 认证蓝图 (登录, 注册, 密码重置)
+├── books_bp.py          # 图书蓝图 (搜索, 列表)
+├── book_apitest.py      # Google Books API 测试脚本
+├── db.sql               # 数据库表结构定义
+├── db_utils.py          # 数据库连接和操作工具
+├── errors.py            # Flask错误处理器
+├── fetch_books.py       # (弃用) 用于爬取图书信息的脚本
+├── init_env.py          # 应用工厂 (create_app)
+├── markdown_bp.py       # Markdown编辑器蓝图
+├── posts.py             # 博客文章蓝图
+├── README.md            # 项目说明文档
+├── requirements.txt     # Python依赖包
+├── utils.py             # 通用工具函数 (如: 邮件发送)
+│
+├── instance/            # 实例文件夹，存放数据库等不应提交到版本库的文件
+│   └── database.db      # SQLite数据库文件
+│
+├── photos/              # (设计文档) 存放项目相关的UML图等
+│   ├── markdown用例图.svg
+│   ├── 关系模式.svg
+│   └── ...
+│
+├── static/              # 静态资源
+│   ├── css/
+│   │   ├── bootstrap.css
+│   │   └── style.css
+│   │   └── ...
+│   ├── img/
+│   │   └── book-placeholder.png
+│   └── js/
+│       ├── bootstrap.js
+│       └── jquery.js
+│
+└── templates/           # Jinja2 模板文件
     ├── base.html
     ├── books.html
+    ├── edit.html
+    ├── edit_markdown.html
+    ├── error.html
+    ├── forgot_password.html
+    ├── full_text.html
     ├── googlebook.html
-    └── ...
+    ├── index.html
+    ├── login.html
+    ├── new.html
+    ├── register.html
+    ├── reset_password.html
+    └── view_markdown.html
+
 ```
 
 ## 安装说明
@@ -127,6 +168,54 @@ MAIL_PASSWORD=your-password
 4. Markdown 编辑
    - 支持实时预览
    - 可以保存和导出编辑内容
+
+## 数据库设计
+
+系统使用 SQLite 数据库，包含以下核心表：
+
+### 1. `users` - 用户表
+存储用户信息和凭证。
+
+| 字段名 | 类型 | 约束 | 描述 |
+|---|---|---|---|
+| `id` | INTEGER | PRIMARY KEY AUTOINCREMENT | 用户唯一标识 |
+| `username` | TEXT | UNIQUE, NOT NULL | 用户名 |
+| `password` | TEXT | NOT NULL | 哈希加密后的密码 |
+| `email` | TEXT | UNIQUE, NOT NULL | 用户邮箱 |
+
+### 2. `posts` - 博客文章表
+存储用户发布的博客文章。
+
+| 字段名 | 类型 | 约束 | 描述 |
+|---|---|---|---|
+| `id` | INTEGER | PRIMARY KEY AUTOINCREMENT | 文章唯一标识 |
+| `user_id` | INTEGER | NOT NULL, FOREIGN KEY (users) | 作者的用户ID |
+| `title` | TEXT | NOT NULL | 文章标题 |
+| `content` | TEXT | NOT NULL | 文章内容 |
+| `created` | TIMESTAMP | NOT NULL, DEFAULT CURRENT_TIMESTAMP | 创建时间 |
+
+### 3. `books` - 图书表
+存储用户收藏的图书信息。
+
+| 字段名 | 类型 | 约束 | 描述 |
+|---|---|---|---|
+| `id` | INTEGER | PRIMARY KEY AUTOINCREMENT | 图书唯一标识 |
+| `title` | TEXT | NOT NULL | 书名 |
+| `authors` | TEXT | | 作者，多个作者以逗号分隔 |
+| `publisher` | TEXT | | 出版社 |
+| `publishedDate` | TEXT | | 出版日期 |
+| `description` | TEXT | | 图书简介 |
+| `thumbnail` | TEXT | | 封面图片链接 |
+| `infoLink` | TEXT | | Google Books 详情页链接 |
+
+### 4. `user_markdown` - Markdown内容表
+存储每个用户的 Markdown 编辑器内容。
+
+| 字段名 | 类型 | 约束 | 描述 |
+|---|---|---|---|
+| `id` | INTEGER | PRIMARY KEY AUTOINCREMENT | 记录唯一标识 |
+| `user_id` | INTEGER | UNIQUE, NOT NULL, FOREIGN KEY (users) | 关联的用户ID |
+| `content` | TEXT | | 用户保存的Markdown内容 |
 
 ## 注意事项
 
