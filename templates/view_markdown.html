@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
+<style>
+    .card{
+        background-color: #000000;
+    }
+</style>
 <div class="container">
-  <h2>Markdown 预览</h2>
+  <h2 style="color: #a4a4a4;">Markdown 预览</h2>
   <div class="card card-body">
     {{ html|safe }}
   </div>

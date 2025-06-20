@@ -1,52 +1,76 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<!-- 引入Tailwind CSS用于快速布局 (如果项目未使用，可移除并手动实现样式) -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
+<!-- 毛玻璃风格博客展示卡片 -->
+<div class="blog-card relative max-w-3xl mx-auto my-8 overflow-hidden rounded-2xl">
+  <!-- 毛玻璃背景效果 -->
+  <style>
+    .glass {
+      background: rgba(25, 25, 35, 0.7); /* 深色半透明背景 */
+      backdrop-filter: blur(12px); /* 毛玻璃模糊效果 */
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1); /* 细微边框 */
+      box-shadow: 0 8px 32px 0 rgb(97, 43, 136); /* 深色阴影 */
+    }
 
-<!-- 仿mac的一个博客展示 --> 
-<div class="card">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style5.css') }}">
-    <div class="mac-header">
-      <span class="red"></span>
-      <span class="yellow"></span>
-      <span class="green"></span>
-    </div>
-    <span class="card-title">{{ post['title']}}</span>
-    <p class="card-description">
-        {{ post['created'] }}
-    </p>
-    <span class="card-tag">TAG JS</span> 
-    <div class="code-editor">
-      <pre><code>{{ post['content'] }}</code></pre>
+    .purple-accent {
+      color: #7E22CE; /* 深紫色点缀 */
+      border-color: #7E22CE;
+    }
+
+    .blog-card .card-title {
+      border-bottom: 1px solid rgba(126, 34, 206, 0.3); /* 深紫色细边框 */
+    }
+
+    /* 按钮悬停效果 */
+    .glass-btn:hover {
+      background: rgba(126, 34, 206, 0.2); /* 深紫色 hover 效果 */
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(126, 34, 206, 0.1);
+    }
+
+    /* 代码区域样式 */
+    .code-block {
+      background: rgba(30, 30, 40, 0.5); /* 代码块背景 */
+      border-left: 3px solid #7E22CE; /* 深紫色边框 */
+    }
+  </style>
+
+  <div class="glass p-6 text-gray-100">
+    <h2 class="card-title text-2xl font-bold mb-2 pb-2">{{ post['title'] }}</h2>
+    <p class="card-description text-gray-400 mb-4">{{ post['created'] }}</p>
+
+    <!-- 代码展示区域 -->
+    <div class="code-block p-4 rounded-lg overflow-x-auto mt-4">
+      <pre><code class="text-gray-200">{{ post['content'] }}</code></pre>
     </div>
   </div>
-  <hr>  
+</div>
 
-<!-- 编辑按钮 --> 
-<a href=" {{ url_for('edit', id=post['id']) }}">
-    <button class="edit-button">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style4.css') }}">
-    <svg class="edit-svgIcon" viewBox="0 0 512 512">
-                      <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"></path>
-                    </svg>
-    </button></a>
+<hr class="border-gray-800/50">
 
-<!-- 删除按钮 -->
-<form action="{{ url_for('delete', id=post['id']) }}" method="POST" style="display:inline;">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style3.css') }}">
-    <button class="button btn-danger btn-sm" type="submit" onclick="return confirm('确定要删除吗?')">
+<div class="flex space-x-3 justify-center mt-8">
+  <!-- 编辑按钮 -->
+  <a href="{{ url_for('edit', id=post['id']) }}" class="glass-btn glass px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-300">
+    <span>编辑</span>
+  </a>
+
+  <!-- 删除按钮 -->
+  <form action="{{ url_for('delete', id=post['id']) }}" method="POST" class="inline">
+    <button class="glass-btn glass px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-300 text-red-400"
+            type="submit" onclick="return confirm('确定要删除吗?')">
       <span>删除</span>
-      <span>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-miterlimit="2" stroke-linejoin="round" fill-rule="evenodd" clip-rule="evenodd" width="20" height="20"><path fill-rule="nonzero" d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 1.5c-4.69 0-8.497 3.807-8.497 8.497s3.807 8.498 8.497 8.498 8.498-3.808 8.498-8.498-3.808-8.497-8.498-8.497zm0 7.425 2.717-2.718c.146-.146.339-.219.531-.219.404 0 .75.325.75.75 0 .193-.073.384-.219.531l-2.717 2.717 2.727 2.728c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.384-.073-.53-.219l-2.729-2.728-2.728 2.728c-.146.146-.338.219-.53.219-.401 0-.751-.323-.751-.75 0-.192.073-.384.22-.531l2.728-2.728-2.722-2.722c-.146-.147-.219-.338-.219-.531 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"></path></svg>
-      </span>
     </button>
-</form>
+  </form>
 
-<!-- From Uiverse.io by andrew-demchenk0 --> 
-<button type="button" class="button" onclick="window.location.href='{{ url_for('export_post', post_id=post['id']) }}'">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style11.css') }}">
-  <span class="button__text">Download</span>
-  <span class="button__icon"><svg class="svg" data-name="Layer 2" id="bdd05811-e15d-428c-bb53-8661459f9307" viewBox="0 0 35 35" xmlns="http://www.w3.org/2000/svg"><path d="M17.5,22.131a1.249,1.249,0,0,1-1.25-1.25V2.187a1.25,1.25,0,0,1,2.5,0V20.881A1.25,1.25,0,0,1,17.5,22.131Z"></path><path d="M17.5,22.693a3.189,3.189,0,0,1-2.262-.936L8.487,15.006a1.249,1.249,0,0,1,1.767-1.767l6.751,6.751a.7.7,0,0,0,.99,0l6.751-6.751a1.25,1.25,0,0,1,1.768,1.767l-6.752,6.751A3.191,3.191,0,0,1,17.5,22.693Z"></path><path d="M31.436,34.063H3.564A3.318,3.318,0,0,1,.25,30.749V22.011a1.25,1.25,0,0,1,2.5,0v8.738a.815.815,0,0,0,.814.814H31.436a.815.815,0,0,0,.814-.814V22.011a1.25,1.25,0,1,1,2.5,0v8.738A3.318,3.318,0,0,1,31.436,34.063Z"></path></svg></span>
-</button>
+  <!-- 下载按钮 -->
+  <button type="button" class="glass-btn glass px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-300 text-green-400"
+          onclick="window.location.href='{{ url_for('export_post', post_id=post['id']) }}'">
+    <span class="button__text">导出文本</span>
+  </button>
+</div>
 
 {% endblock %}

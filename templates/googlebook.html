@@ -1,96 +1,121 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<!-- From Uiverse.io by 0xnihilism --> 
-    <form method="post">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style10.css') }}">
-    <!-- From Uiverse.io by Amankrah --> 
-        <div class="galaxy"></div>
-        <div id="search-container">
-        <div class="nebula"></div>
-        <div class="starfield"></div>
-        <div class="cosmic-dust"></div>
-        <div class="cosmic-dust"></div>
-        <div class="cosmic-dust"></div>
+<!-- 引入Tailwind CSS -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
-        <div class="stardust"></div>
+<!-- 毛玻璃风格搜索卡片 -->
+<div class="search-card relative max-w-3xl mx-auto my-8 overflow-hidden rounded-2xl">
+  <!-- 毛玻璃背景效果 -->
+  <style>
+    .glass {
+      background: rgba(25, 25, 35, 0.7); /* 深色半透明背景 */
+      backdrop-filter: blur(12px); /* 毛玻璃模糊效果 */
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1); /* 细微边框 */
+      box-shadow: 0 8px 32px 0 rgb(97, 43, 136); /* 深紫色阴影 */
+    }
 
-        <div class="cosmic-ring"></div>
+    .purple-accent {
+      color: #7E22CE; /* 深紫色点缀 */
+      border-color: #7E22CE;
+    }
 
-        <div id="main">
-            <input
-            class="input"
-            name="isbn"
-            type="text"
-            placeholder="请输入isbn..."
-            />
-            <div id="input-mask"></div>
-            <div id="cosmic-glow"></div>
-            <div class="wormhole-border"></div>
-           <button type="submit">
-            <div id="wormhole-icon">
-            <svg
-                stroke-linejoin="round"
-                stroke-linecap="round"
-                stroke-width="2"
-                stroke="#a9c7ff"
-                fill="none"
-                height="24"
-                width="24"
-                viewBox="0 0 24 24"
-            >
-                <circle r="10" cy="12" cx="12"></circle>
-                <path
-                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
-                ></path>
-                <path d="M2 12h20"></path>
-            </svg>
-            </div>
-        </button>
-            <!-- From Uiverse.io by 0xnihilism --> 
-            <div id="search-icon">
-            <svg
-                stroke-linejoin="round"
-                stroke-linecap="round"
-                stroke-width="2"
-                stroke="url(#cosmic-search)"
-                fill="none"
-                height="24"
-                width="24"
-                viewBox="0 0 24 24"
-            >
-                <circle r="8" cy="11" cx="11"></circle>
-                <line y2="16.65" x2="16.65" y1="21" x1="21"></line>
-                <defs>
-                <linearGradient gradientTransform="rotate(45)" id="cosmic-search">
-                    <stop stop-color="#a9c7ff" offset="0%"></stop>
-                    <stop stop-color="#6e8cff" offset="100%"></stop>
-                </linearGradient>
-                </defs>
-            </svg>
-            </div>
-        </div>
-        </div>
+    /* 输入框样式 */
+    .glass-input {
+      background: rgba(40, 40, 55, 0.5); /* 输入框背景 */
+      border: 1px solid rgba(126, 34, 206, 0.3); /* 深紫色边框 */
+      color: #e2e8f0; /* 文本颜色 */
+      transition: all 0.3s ease;
+    }
 
-    </form>
-  
-{% if book %}
+    .glass-input:focus {
+      outline: none;
+      border-color: #7E22CE; /* 聚焦时边框颜色 */
+      box-shadow: 0 0 0 2px rgba(126, 34, 206, 0.2); /* 聚焦时的光晕 */
+    }
+
+    /* 按钮样式 */
+    .glass-btn {
+      background: rgba(126, 34, 206, 0.1); /* 按钮背景 */
+      border: 1px solid rgba(126, 34, 206, 0.3); /* 深紫色边框 */
+      color: #c084fc; /* 按钮文本颜色 */
+      transition: all 0.3s ease;
+    }
+
+    .glass-btn:hover {
+      background: rgba(126, 34, 206, 0.2); /* 深紫色 hover 效果 */
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(126, 34, 206, 0.1);
+    }
+
+    /* 搜索结果卡片 */
+    .result-card {
+      background: rgba(35, 35, 45, 0.5); /* 结果卡片背景 */
+      border: 1px solid rgba(126, 34, 206, 0.2); /* 深紫色边框 */
+      transition: all 0.3s ease;
+    }
+
+    .result-card:hover {
+      border-color: rgba(126, 34, 206, 0.5); /* 悬停时边框颜色加深 */
+    }
+  </style>
+
+  <form method="post" class="glass p-6">
+    <h2 class="text-xl font-bold mb-6 text-gray-100">搜索图书</h2>
+
+    <div class="flex space-x-3">
+      <input
+        class="glass-input flex-1 px-4 py-3 rounded-lg focus:outline-none"
+        name="isbn"
+        type="text"
+        placeholder="请输入ISBN..."
+      />
+
+      <button type="submit" class="glass-btn px-6 py-3 rounded-lg flex items-center space-x-2">
+        <svg
+          class="w-5 h-5 text-purple-400"
+          stroke-linejoin="round"
+          stroke-linecap="round"
+          stroke-width="2"
+          stroke="currentColor"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle r="8" cy="11" cx="11"></circle>
+          <line y2="16.65" x2="16.65" y1="21" x1="21"></line>
+        </svg>
+        <span>搜索</span>
+      </button>
+    </div>
+  </form>
+
+  <!-- 搜索结果展示区域 -->
+  {% if book %}
     {% if book.error %}
-        <p style="color:red;">{{ book.error }}</p>
+      <div class="result-card glass p-6 mt-6 text-red-400">
+        {{ book.error }}
+      </div>
     {% else %}
-        <h3>{{ book.title }}</h3>
-        <p>作者：{{ book.authors }}</p>
-        <p>出版社：{{ book.publisher }}</p>
-        <p>出版日期：{{ book.publishedDate }}</p>
-        <p>简介：{{ book.description }}</p>
+      <div class="result-card glass p-6 mt-6 space-y-4">
+        <h3 class="text-xl font-bold text-gray-100">{{ book.title }}</h3>
+        <p class="text-gray-300">作者：{{ book.authors }}</p>
+        <p class="text-gray-300">出版社：{{ book.publisher }}</p>
+        <p class="text-gray-300">出版日期：{{ book.publishedDate }}</p>
+        <p class="text-gray-300">简介：{{ book.description }}</p>
+
         {% if book.thumbnail %}
-            <img src="{{ book.thumbnail }}" alt="封面">
+          <div class="mt-4">
+            <img src="{{ book.thumbnail }}" alt="{{ book.title }}封面" class="rounded-lg max-w-full h-auto">
+          </div>
         {% endif %}
-        <p>
-            <a href="{{ book.infoLink }}" target="_blank">Google图书详情页</a><br>
-            <a href="{{ book.previewLink }}" target="_blank">Google图书预览页</a><br>
-            <a href="{{ book.canonicalVolumeLink }}" target="_blank">Google图书标准页</a>
-        </p>
+
+        <div class="mt-4 space-y-2">
+          <a href="{{ book.infoLink }}" target="_blank" class="text-purple-400 hover:text-purple-300 transition-colors">Google图书详情页</a>
+        </div>
+      </div>
     {% endif %}
-{% endif %}
+  {% endif %}
+</div>
+
 {% endblock %}

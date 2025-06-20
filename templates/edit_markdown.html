@@ -1,18 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
+<style>
+    .form-control {
+        background-color: #000000;
+        border-color: #612b88;
+        color: #5a5a5a;
+    }
+    .form-control:focus {
+        background-color: #000000;
+        border-color: #612b88;
+    }
+    .card-body{
+        background-color: #000000;
+    }
+    .btn{
+        background-color: #612b88;
+        border-color: #612b88;
+        color: #fff;
+    }
+</style>
 <div class="container mt-4">
-  <h2>编辑你的 Markdown</h2>
+  <h2 style="color: #a4a4a4">编辑你的 Markdown</h2>
   <div class="row">
     <div class="col-md-6">
       <form method="post" id="md-form">
-        <textarea id="md-input" name="content" rows="20" class="form-control">{{ content }}</textarea>
+        <textarea id="md-input" name="content" rows="15" class="form-control">{{ content }}</textarea>
         <a href="{{ url_for('export_markdown') }}" class="btn btn-success mt-2">导出为 Markdown 文件</a>
         <button type="submit" class="btn btn-primary mt-2">保存</button>
       </form>
     </div>
     <div class="col-md-6">
       <div class="card">
-        <div class="card-header">实时预览</div>
+        <div class="card-header" style="background-color: #612b88">实时预览</div>
         <div class="card-body" id="md-preview" style="min-height: 400px;"></div>
       </div>
     </div>

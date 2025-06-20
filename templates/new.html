@@ -1,22 +1,75 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>{% block title %} 新建笔记 {% endblock %}</h1>
+<!-- 引入Tailwind CSS用于快速布局 -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
-<form method="post">
-    <div class="form-group">
-        <label for="title">书本标题</label>
-        <input type="text" name="title" placeholder="标题" class="form-control"
-            value="{{ request.form['title'] }}"></input>
-    </div>
+<!-- 毛玻璃风格新建笔记卡片 -->
+<div class="new-note-card relative max-w-3xl mx-auto my-8 overflow-hidden rounded-2xl">
+  <!-- 毛玻璃背景效果 -->
+  <style>
+    .glass {
+      background: rgba(25, 25, 35, 0.7); /* 深色半透明背景 */
+      backdrop-filter: blur(12px); /* 毛玻璃模糊效果 */
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1); /* 细微边框 */
+      box-shadow: 0 8px 32px 0 rgb(97, 43, 136); /* 深紫色阴影 */
+    }
 
-    <div class="form-group">
-        <label for="content">内容</label>
-        <textarea name="content" placeholder="文章内容"
-            class="form-control">{{ request.form['content'] }}</textarea>
-    </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">提交</button>
-    </div>
-</form>
+    .purple-accent {
+      color: #7E22CE; /* 深紫色点缀 */
+      border-color: #7E22CE;
+    }
+
+    /* 输入框样式 */
+    .glass-input {
+      background: rgba(40, 40, 55, 0.5); /* 输入框背景 */
+      border: 1px solid rgba(126, 34, 206, 0.3); /* 深紫色边框 */
+      color: #e2e8f0; /* 文本颜色 */
+      transition: all 0.3s ease;
+    }
+
+    .glass-input:focus {
+      outline: none;
+      border-color: #7E22CE; /* 聚焦时边框颜色 */
+      box-shadow: 0 0 0 2px rgba(126, 34, 206, 0.2); /* 聚焦时的光晕 */
+    }
+
+    /* 按钮悬停效果 */
+    .glass-btn:hover {
+      background: rgba(126, 34, 206, 0.2); /* 深紫色 hover 效果 */
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(126, 34, 206, 0.1);
+    }
+  </style>
+
+  <div class="glass p-6 text-gray-100">
+    <h1 class="text-2xl font-bold mb-6 pb-2 border-b border-purple-800/30">
+      新建笔记
+    </h1>
+
+    <form method="post" class="space-y-6">
+      <div class="form-group">
+        <label for="title" class="block text-sm font-medium text-gray-300 mb-1">书本标题</label>
+        <input type="text" name="title" placeholder="请输入标题"
+               class="glass-input w-full px-4 py-3 rounded-lg"
+               value="{{ request.form['title'] }}">
+      </div>
+
+      <div class="form-group">
+        <label for="content" class="block text-sm font-medium text-gray-300 mb-1">内容</label>
+        <textarea name="content" placeholder="请输入文章内容" rows="12"
+                  class="glass-input w-full px-4 py-3 rounded-lg resize-none">{{ request.form['content'] }}</textarea>
+      </div>
+
+      <div class="form-group flex justify-end">
+        <button type="submit"
+                class="glass-btn glass bg-purple-800/20 hover:bg-purple-800/30 text-purple-300 px-6 py-3 rounded-lg font-medium transition-all duration-300">
+          <span>创建笔记</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
 {% endblock %}
