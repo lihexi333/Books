@@ -8,9 +8,10 @@
 <div class="container">
   <h2 style="color: #a4a4a4;">Markdown 预览</h2>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style5.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/pygments.css') }}">
   <div class="card">
       <div class="card-title">预览</div>
-      <div class="code-editor">
+      <div class="code-editor codehilite">
           {{ html_content | safe }}
       </div>
   </div>
