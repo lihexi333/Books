@@ -118,8 +118,8 @@ def reset_password():
         return redirect(url_for('auth.forgot_password'))
 
     if request.method == 'POST':
-        token = request.form['token']
-        new_password = request.form['password']
+        token = request.form['code']
+        new_password = request.form['new_password']
         
         reset_info = session.get('reset_token')
         
