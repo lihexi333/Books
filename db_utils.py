@@ -29,8 +29,9 @@ def close_db(e=None):
 def init_db():
     db = get_db_conn()
 
-    with current_app.open_resource('db.sql', mode='r', encoding='utf-8') as f:
-        db.executescript(f.read())
+
+    with current_app.open_resource('db.sql') as f:
+        db.executescript(f.read().decode('utf8'))
     
     # 插入管理员账号（用户名：管理员，密码：111，邮箱：admin@example.com，is_admin=1）
     db.execute(
@@ -51,7 +52,8 @@ def init_db():
     # 可选：插入一条测试书籍
     db.execute("INSERT INTO books (title, authors, publisher, publishedDate, description, thumbnail, infoLink) VALUES (?, ?, ?, ?, ?, ?, ?)",
                 ('测试书籍', '测试作者', '测试出版社', '2024-01-01', '这是一本测试书籍', '', ''))
-    
+
+
     db.commit()
 
 def init_app(app):
