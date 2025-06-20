@@ -1,5 +1,5 @@
 from init_env import create_app
-from db_utils import init_db
+from db_utils import init_db, fetch_books_from_api
 import os
 import sys
 
@@ -19,11 +19,13 @@ def main():
 可选参数:
   -h, --help     显示帮助信息
   init-db        初始化数据库
+  fetch-books    从Google Books API获取约100本图书存入数据库
   dev            开发环境(开启调试模式和热更新)
   prod           生产环境(关闭调试模式)
 
 示例:
   python app.py init-db     # 初始化数据库
+  python app.py fetch-books # 获取图书
   python app.py dev         # 以开发环境启动
   python app.py prod        # 以生产环境启动
   python app.py             # 默认以开发环境启动
@@ -33,6 +35,10 @@ def main():
             with app.app_context():
                 init_db()
                 print("数据库已初始化.")
+            sys.exit()
+        elif command == 'fetch-books':
+            with app.app_context():
+                fetch_books_from_api()
             sys.exit()
         else:
             env = command
