@@ -1,7 +1,7 @@
 import requests
 
-def get_book_info_by_isbn(isbn):
-    url = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}"
+def get_book_info_by_name(name):
+    url = f"https://www.googleapis.com/books/v1/volumes?q={name}"
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
@@ -25,5 +25,5 @@ def get_book_info_by_isbn(isbn):
         return None
 
 # 示例调用
-isbn = "9781498711395"
-get_book_info_by_isbn(isbn)
+name = "Java"
+get_book_info_by_name(name)

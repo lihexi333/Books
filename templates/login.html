@@ -11,13 +11,13 @@
   </div>
   <div id="password-area">
     <input name="password" placeholder="密码" id="password" class="input" type="password" />
-    <a href="{{ url_for('forgot_password') }}">Forgot password?</a>
+    <a href="{{ url_for('auth.forgot_password') }}">Forgot password?</a>
   </div>
   <div id="footer-area">
     <button type="submit">登录</button>
     <div id="text-inside">
       <p>Don't have an account?</p>
-      <a id="link" href="{{ url_for('register') }}">Sign Up</a>
+      <a id="link" href="{{ url_for('auth.register') }}">Sign Up</a>
     </div>
   </div>
   <div id="background-color"></div>

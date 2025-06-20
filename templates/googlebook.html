@@ -1,28 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<!-- From Uiverse.io by 0xnihilism --> 
-    <form method="post">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style10.css') }}">
-    <!-- From Uiverse.io by Amankrah --> 
-        <div class="galaxy"></div>
-        <div id="search-container">
+<!-- 搜索表单 --> 
+<form method="post" class="mb-5">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style10.css') }}">
+    <div class="galaxy"></div>
+    <div id="search-container">
         <div class="nebula"></div>
         <div class="starfield"></div>
         <div class="cosmic-dust"></div>
         <div class="cosmic-dust"></div>
         <div class="cosmic-dust"></div>
-
         <div class="stardust"></div>
-
         <div class="cosmic-ring"></div>
-
         <div id="main">
             <input
             class="input"
-            name="isbn"
+            name="book_name"
             type="text"
-            placeholder="请输入isbn..."
+            placeholder="请输入搜索词..."
+            value="{{ search_term }}"
             />
             <div id="input-mask"></div>
             <div id="cosmic-glow"></div>
@@ -47,7 +44,6 @@
             </svg>
             </div>
         </button>
-            <!-- From Uiverse.io by 0xnihilism --> 
             <div id="search-icon">
             <svg
                 stroke-linejoin="round"
@@ -70,27 +66,76 @@
             </svg>
             </div>
         </div>
-        </div>
+    </div>
+</form>
 
-    </form>
-  
-{% if book %}
-    {% if book.error %}
-        <p style="color:red;">{{ book.error }}</p>
+<!-- 搜索结果 -->
+{% if books %}
+    {% if books.error is defined %}
+        <p class="alert alert-danger">{{ books.error }}</p>
     {% else %}
-        <h3>{{ book.title }}</h3>
-        <p>作者：{{ book.authors }}</p>
-        <p>出版社：{{ book.publisher }}</p>
-        <p>出版日期：{{ book.publishedDate }}</p>
-        <p>简介：{{ book.description }}</p>
-        {% if book.thumbnail %}
-            <img src="{{ book.thumbnail }}" alt="封面">
+        {% if search_term %}
+            <h2 class="mb-4">搜索结果: "{{ search_term }}"</h2>
         {% endif %}
-        <p>
-            <a href="{{ book.infoLink }}" target="_blank">Google图书详情页</a><br>
-            <a href="{{ book.previewLink }}" target="_blank">Google图书预览页</a><br>
-            <a href="{{ book.canonicalVolumeLink }}" target="_blank">Google图书标准页</a>
-        </p>
+        
+        <!-- 卡片网格布局 -->
+        <div class="row row-cols-1 row-cols-md-5 gx-10" style="row-gap: 12px;">
+            {% for book in books %}
+                <div class="col">
+                    <div class="card">
+                        <!-- 使用style6.css中的卡片样式 -->
+                        <link rel="stylesheet" href="{{ url_for('static', filename='css/style6.css') }}">
+                        <div class="content">
+                            <div class="back">
+                                <div class="back-content">
+                                    {% if book.get('imageLinks') and book.get('imageLinks').get('thumbnail') %}
+                                        <div class="img" style="background-image: url('{{ book.imageLinks.thumbnail }}');"></div>
+                                    {% else %}
+                                        <div class="img" style="background-image: url('{{ url_for('static', filename='img/book-placeholder.png') }}');"></div>
+                                    {% endif %}
+                                    <div class="description">
+                                        <div class="title-area">
+                                            <p class="book-title">{{ book.title|truncate(40) }}</p>
+                                        </div>
+                                        <p>
+                                            {% if book.authors %}作者: {{ book.authors|truncate(30) }}{% endif %}
+                                            {% if book.publisher %}<br>出版社: {{ book.publisher|truncate(30) }}{% endif %}
+                                            {% if book.publishedDate %}<br>出版日期: {{ book.publishedDate }}{% endif %}
+                                        </p>
+                                    </div>
+                                    <div class="card-footer" style="position: absolute; bottom: 0;">
+                                        <span>翻转查看详情</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="front">
+                                <div class="front-content">
+                                    <small class="badge">Google Books</small>
+                                    <div class="description">
+                                        <div class="title-area">
+                                            <p class="book-title">{{ book.title|truncate(40) }}</p>
+                                        </div>
+                                        <p>{{ book.description|default('暂无简介')|truncate(150) }}</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <a href="{{ book.infoLink }}" target="_blank" class="btn btn-sm btn-primary">详情</a>
+                                        {% if book.previewLink %}
+                                            <a href="{{ book.previewLink }}" target="_blank" class="btn btn-sm btn-outline-secondary">预览</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% else %}
+    {% if search_term %}
+        <div class="alert alert-info mt-4">
+            找不到与 "{{ search_term }}" 相关的图书，请尝试其他关键词。
+        </div>
     {% endif %}
 {% endif %}
 {% endblock %}
